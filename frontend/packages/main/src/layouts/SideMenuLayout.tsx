@@ -391,11 +391,13 @@ export default function SideMenuLayout({ children }: { children: React.ReactNode
                   }}
                 >
                   <div
-                    className="h-full overflow-hidden"
+                    className="h-full"
                     style={{
                       background: 'var(--ag-ant-color-bg-base)',
                       borderRadius: 8,
                       border: '1px solid var(--ag-ant-color-border-secondary)',
+                      overflowX: 'hidden',
+                      overflowY: 'auto',
                     }}
                   >
                     {children}

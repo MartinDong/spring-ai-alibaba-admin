@@ -33,6 +33,8 @@ public final class SkillPromptSupport {
 			- When a task matches a skill, call tool `read_skill` with skill_name (or skill_path) to load the full SKILL.md body.
 			- After loading a skill, you may call `read_skill_resource` with skill_name and a relative_path under that skill directory (e.g. references/guide.md) to read bundled files.
 			- Do not invent skill content; always load via tools when needed.
+			- Runtime constraint: only tools explicitly registered for this agent can be called. Skill documents may mention Codex/OpenClaw built-in tools or local scripts; those are NOT available here unless bound as plugin/MCP tools. Never invent tool names such as image-generation helpers from the skill text.
+			- If a skill requires unavailable capabilities (script execution, image backends, subagents), explain the limitation and stop instead of calling nonexistent tools.
 			""".trim();
 
 	private SkillPromptSupport() {

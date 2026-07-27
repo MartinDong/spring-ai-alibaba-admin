@@ -49,6 +49,7 @@ import com.alibaba.cloud.ai.studio.core.agent.skill.SkillPromptSupport;
 import com.alibaba.cloud.ai.studio.core.agent.skill.WorkspaceSkillRegistry;
 import com.alibaba.cloud.ai.studio.core.agent.tool.AgentToolCallback;
 import com.alibaba.cloud.ai.studio.core.agent.tool.CompositeToolCallbackProvider;
+import com.alibaba.cloud.ai.studio.core.agent.tool.FallbackToolCallbackResolver;
 import com.alibaba.cloud.ai.studio.core.agent.tool.ToolArgumentsHelper;
 import com.alibaba.cloud.ai.studio.core.rag.DocumentChunkConverter;
 import com.alibaba.cloud.ai.studio.core.utils.io.FileUtils;
@@ -157,7 +158,7 @@ public class BasicAgentExecutor extends AbstractAgentExecutor {
 		ToolCallingChatOptions chatOptions = buildChatOptions(config);
 
 		// build tool callback provider
-		ToolCallingManager toolCallingManager = ToolCallingManager.builder().build();
+		ToolCallingManager toolCallingManager = buildToolCallingManager();
 		CompositeToolCallbackProvider toolCallbackProvider = buildToolCallbackProvider(config, request.getExtraPrams());
 
 		// build messages
@@ -188,7 +189,7 @@ public class BasicAgentExecutor extends AbstractAgentExecutor {
 		ToolCallingChatOptions chatOptions = buildChatOptions(config);
 
 		// build tool callback provider
-		ToolCallingManager toolCallingManager = ToolCallingManager.builder().build();
+		ToolCallingManager toolCallingManager = buildToolCallingManager();
 		CompositeToolCallbackProvider toolCallbackProvider = buildToolCallbackProvider(config, request.getExtraPrams());
 
 		// build messages
@@ -683,6 +684,10 @@ public class BasicAgentExecutor extends AbstractAgentExecutor {
 			Map<String, Object> extraParams) {
 		return new CompositeToolCallbackProvider(config, pluginService, toolExecutionService, mcpServerService,
 				appComponentManager, skillService, studioProperties, extraParams);
+	}
+
+	private ToolCallingManager buildToolCallingManager() {
+		return ToolCallingManager.builder().toolCallbackResolver(new FallbackToolCallbackResolver()).build();
 	}
 
 	private Flux<AgentResponse> processToolCallsRecursively(ChatClient.Builder chatClientBuilder, ChatResponse response,

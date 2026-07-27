@@ -129,13 +129,13 @@ export default function AppComponent(props: { type: IAppType }) {
         );
         break;
       case 'edit':
-        setState({ activeRecord: item });
+        setState({ activeRecord: item, detailRecord: null, referRecord: null });
         break;
       case 'detail':
-        setState({ detailRecord: item });
+        setState({ detailRecord: item, activeRecord: null });
         break;
       case 'referDetail':
-        setState({ referRecord: item });
+        setState({ referRecord: item, activeRecord: null, detailRecord: null });
         break;
       case 'delete':
         handleDelete(item.code!);

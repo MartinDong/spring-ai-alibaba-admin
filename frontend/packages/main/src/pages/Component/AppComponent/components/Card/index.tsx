@@ -57,14 +57,23 @@ const AppComponentCard: React.FC<AppComponentCardProps> = ({
           <Button
             type="primary"
             className="flex-1"
-            onClick={() => onClickAction('edit')}
+            onClick={(e) => {
+              e.stopPropagation();
+              onClickAction('edit');
+            }}
           >
             {$i18n.get({
               id: 'main.pages.Component.AppComponent.components.Card.index.edit',
               dm: '编辑',
             })}
           </Button>
-          <Button className="flex-1" onClick={() => onClickAction('gotoApp')}>
+          <Button
+            className="flex-1"
+            onClick={(e) => {
+              e.stopPropagation();
+              onClickAction('gotoApp');
+            }}
+          >
             {$i18n.get({
               id: 'main.pages.Component.AppComponent.components.Card.index.viewOriginalApplication',
               dm: '查看原应用',
@@ -80,7 +89,10 @@ const AppComponentCard: React.FC<AppComponentCardProps> = ({
                     dm: '组件引用详情',
                   }),
                   key: 'detail',
-                  onClick: () => onClickAction('referDetail'),
+                  onClick: ({ domEvent }) => {
+                    domEvent.stopPropagation();
+                    onClickAction('referDetail');
+                  },
                 },
                 {
                   label: $i18n.get({
@@ -89,12 +101,19 @@ const AppComponentCard: React.FC<AppComponentCardProps> = ({
                   }),
                   key: 'delete',
                   danger: true,
-                  onClick: () => onClickAction('delete'),
+                  onClick: ({ domEvent }) => {
+                    domEvent.stopPropagation();
+                    onClickAction('delete');
+                  },
                 },
               ],
             }}
           >
-            <IconButton shape="default" icon="spark-more-line" />
+            <IconButton
+              shape="default"
+              icon="spark-more-line"
+              onClick={(e) => e.stopPropagation()}
+            />
           </Dropdown>
         </>
       }

@@ -66,6 +66,104 @@ const STATUS_COLOR_MAP: Record<string, string> = {
   default: 'default',
 };
 
+/** Extract readable text preview from gen_ai.*.messages JSON (Langfuse-style truncated cell). */
+const extractMessagePreview = (raw: unknown, roleFilter?: string, maxLen = 140): string => {
+  if (raw == null || raw === '') return '';
+  try {
+    const msgs = typeof raw === 'string' ? JSON.parse(raw) : raw;
+    if (!Array.isArray(msgs)) {
+      const s = typeof raw === 'string' ? raw : JSON.stringify(raw);
+      return s.length > maxLen ? `${s.slice(0, maxLen)}…` : s;
+    }
+    const filtered = roleFilter ? msgs.filter((m: any) => m?.role === roleFilter) : msgs;
+    const texts = filtered.flatMap((m: any) => {
+      if (typeof m?.content === 'string') return [m.content];
+      if (Array.isArray(m?.parts)) {
+        return m.parts.map((p: any) => p?.text ?? p?.content ?? (typeof p === 'string' ? p : JSON.stringify(p)));
+      }
+      return [JSON.stringify(m)];
+    });
+    const joined = texts.filter(Boolean).join(' ').replace(/\s+/g, ' ').trim();
+    if (!joined) return '';
+    return joined.length > maxLen ? `${joined.slice(0, maxLen)}…` : joined;
+  } catch {
+    const s = String(raw);
+    return s.length > maxLen ? `${s.slice(0, maxLen)}…` : s;
+  }
+};
+
+const PrettyJsonBlock: React.FC<{ title: string; data: any; maxHeight?: number }> = ({
+  title,
+  data,
+  maxHeight = 480,
+}) => {
+  const src = typeof data === 'string' ? safeJSONParse(data, () => data) : data;
+  // false = fully expanded (default); true = fully collapsed
+  const [collapsed, setCollapsed] = useState(false);
+  const viewKey = `${title}-${collapsed ? 'c' : 'e'}`;
+
+  return (
+    <div className="trace-io-block">
+      <div className="trace-io-block-title">
+        <span>{title}</span>
+        <Space size={4} className="trace-io-block-actions">
+          <Button
+            type="link"
+            size="small"
+            disabled={!collapsed}
+            onClick={() => setCollapsed(false)}
+          >
+            展开
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            disabled={collapsed}
+            onClick={() => setCollapsed(true)}
+          >
+            折叠
+          </Button>
+        </Space>
+      </div>
+      <div className="trace-io-block-body" style={{ maxHeight }}>
+        {src == null || src === '' ? (
+          <span className="trace-muted">—</span>
+        ) : (
+          <ReactJsonView
+            key={viewKey}
+            src={typeof src === 'object' ? src : { value: src }}
+            name={false}
+            collapsed={collapsed}
+            displayDataTypes={false}
+            enableClipboard
+            style={{ background: 'transparent', fontSize: 12, width: '100%' }}
+          />
+        )}
+      </div>
+    </div>
+  );
+};
+
+const AttrRow: React.FC<{ name: string; value: unknown }> = ({ name, value }) => {
+  const text = value == null ? '' : typeof value === 'string' ? value : JSON.stringify(value);
+  return (
+    <div className="trace-attr-row">
+      <div className="trace-attr-key" title={name}>{name}</div>
+      <div className="trace-attr-value">
+        <span className="trace-attr-text" title={text}>{text || '—'}</span>
+        {text ? (
+          <CopyOutlined
+            className="trace-attr-copy"
+            onClick={() => {
+              copyToClipboard(text).then(() => message.success('复制成功')).catch(() => message.error('复制失败'));
+            }}
+          />
+        ) : null}
+      </div>
+    </div>
+  );
+};
+
 // --- Span Waterfall Components ---
 
 interface Span {
@@ -111,8 +209,8 @@ interface SpanWaterfallRowProps {
 
 const SpanWaterfallRow: React.FC<SpanWaterfallRowProps> = ({ span, depth, traceStartTime, traceTotalDuration, onSpanSelect, isSelected, onToggleCollapse, isCollapsed }) => {
   const offsetMs = new Date(span.startTime).getTime() - traceStartTime;
-  const offsetPercent = (offsetMs / traceTotalDuration) * 100;
-  const widthPercent = (span.duration / traceTotalDuration) * 100;
+  const offsetPercent = Math.max(0, Math.min(100, (offsetMs / traceTotalDuration) * 100));
+  const widthPercent = Math.max(1.5, Math.min(100 - offsetPercent, (span.duration / traceTotalDuration) * 100));
 
   const hoverContent = (
     <div>
@@ -123,7 +221,7 @@ const SpanWaterfallRow: React.FC<SpanWaterfallRowProps> = ({ span, depth, traceS
     </div>
   );
 
-  const attr = span.attributes;
+  const attr = span.attributes || {};
   const types: Record<string, string> = {
     "framework": "geekblue",
     "chat": "green",
@@ -138,71 +236,66 @@ const SpanWaterfallRow: React.FC<SpanWaterfallRowProps> = ({ span, depth, traceS
   const operationName = attr["gen_ai.operation.name"];
   const hasChildren = span.children && span.children.length > 0;
 
-  // 添加到评测集按钮的点击处理函数
   const handleAddToDataset = (e: React.MouseEvent) => {
     e.stopPropagation();
-    // 通过props传递的函数处理添加到评测集的操作
     if (typeof (window as any).handleAddToDataset === 'function') {
       (window as any).handleAddToDataset(span);
     }
   };
 
+  const indent = depth * 14 + 8;
+
   return (
     <div
-      className={`flex items-center w-full cursor-pointer border-b border-gray-100 hover:bg-gray-50 ${isSelected ? 'bg-blue-50' : ''}`}
+      className={`span-waterfall-row ${isSelected ? 'is-selected' : ''}`}
       onClick={() => onSpanSelect(span)}
     >
-      <div className="w-3/5 shrink-0 whitespace-nowrap overflow-hidden text-ellipsis p-2" style={{ paddingLeft: depth * 24 + 8 }}>
-        <div className="flex items-center gap-1">
-          {hasChildren ? (
-            <span
-              onClick={(e) => { e.stopPropagation(); onToggleCollapse(span.spanID); }}
-              className="cursor-pointer p-1 flex items-center justify-center"
-              style={{
-                transition: 'transform 0.2s ease-in-out',
-                transform: isCollapsed ? 'rotate(-90deg)' : 'rotate(0deg)',
-              }}
-            >
-              <DownOutlined style={{ fontSize: '10px' }} />
-            </span>
-          ) : (
-            <span className="w-6 inline-block" /> // for alignment
-          )}
-          <Tooltip title={span.operationName}>
-            <div className="flex items-center gap-2">
-              <div className='max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap'>
-                {span.operationName}
-              </div>
-              {operationName && <Tag color={types[operationName]}>{operationName}</Tag>}
-              {/* 添加到评测集按钮 */}
-            </div>
-          </Tooltip>
-          {operationName === 'chat' && <div className="">
-            <Tooltip title="添加到评测集">
-              <Button
-                size="small"
-                icon={<DatabaseOutlined />}
-                onClick={handleAddToDataset}
-              />
-            </Tooltip>
-          </div>}
-        </div>
-      </div>
-      <div className="flex-grow h-6 bg-gray-100 relative p-0">
-        <Tooltip title={hoverContent}>
-          <div
-            className="h-full absolute rounded"
-            style={{
-              left: `${offsetPercent}%`,
-              width: `${widthPercent}%`,
-              backgroundColor: bgColors[operationName] || "#ccc"
-            }}
+      <div className="span-waterfall-row-main" style={{ paddingLeft: indent }}>
+        {hasChildren ? (
+          <button
+            type="button"
+            className={`span-waterfall-toggle ${isCollapsed ? 'is-collapsed' : ''}`}
+            onClick={(e) => { e.stopPropagation(); onToggleCollapse(span.spanID); }}
+            aria-label={isCollapsed ? 'Expand' : 'Collapse'}
           >
-            <span className="text-gray-500 text-xs px-1 absolute right-0 inset-y-0 flex items-center">{formatDuration(span.duration)}</span>
+            <DownOutlined style={{ fontSize: 10 }} />
+          </button>
+        ) : (
+          <span className="span-waterfall-toggle-spacer" />
+        )}
+        <Tooltip title={span.operationName}>
+          <div className="span-waterfall-name">{span.operationName}</div>
+        </Tooltip>
+        {operationName ? (
+          <Tag className="span-waterfall-tag" color={types[operationName]}>{operationName}</Tag>
+        ) : null}
+        {operationName === 'chat' ? (
+          <Tooltip title="添加到评测集">
+            <Button
+              size="small"
+              type="text"
+              className="span-waterfall-action"
+              icon={<DatabaseOutlined />}
+              onClick={handleAddToDataset}
+            />
+          </Tooltip>
+        ) : null}
+        <span className="span-waterfall-duration">{formatDuration(span.duration)}</span>
+      </div>
+      <div className="span-waterfall-row-bar" style={{ paddingLeft: indent + 22 }}>
+        <Tooltip title={hoverContent}>
+          <div className="span-timeline-track">
+            <div
+              className="span-timeline-bar"
+              style={{
+                left: `${offsetPercent}%`,
+                width: `${widthPercent}%`,
+                backgroundColor: bgColors[operationName] || '#91caff',
+              }}
+            />
           </div>
         </Tooltip>
       </div>
-
     </div>
   );
 };
@@ -822,6 +915,8 @@ function TracingPage() {
         setTraceDetail(traceDetailData);
         const tree = buildSpanTree(traceDetailData.spans || []);
         setSpanTree(tree);
+        setSelectedSpan(tree[0] || null);
+        setCollapsedSpans(new Set());
       } else {
         notifyError({ message: '获取Trace详情失败' });
       }
@@ -888,49 +983,30 @@ function TracingPage() {
     {
       title: "输入/输出信息",
       dataIndex: "inputMessage",
-      width: "20%",
+      width: "22%",
       render: (_v: any, record: any) => {
-        const attr = record.attributes;
-        if (!attr?.["gen_ai.input.messages"]) {
-          return "-";
+        const attr = record.attributes || {};
+        const inputPreview = extractMessagePreview(attr["gen_ai.input.messages"], 'user');
+        const outputPreview = extractMessagePreview(attr["gen_ai.output.messages"], 'assistant');
+        if (!inputPreview && !outputPreview && !attr["gen_ai.input.messages"]) {
+          return <span className="trace-muted">—</span>;
         }
         return (
-          <div>
-            <div className='flex'>
-              <span className='mr-2 inline-flex min-w-[48px]'>Input:</span>
-              <Popover placement="top" content={
-                <div style={{ maxWidth: 600 }}>
-                  <ReactJsonView
-                    style={{ height: 400, width: 600, overflow: "auto" }}
-                    src={safeJSONParse(attr?.["gen_ai.input.messages"])}
-                    name={false}
-                  />
-                </div>
-              }>
-                <div className='max-w-full whitespace-nowrap overflow-hidden text-ellipsis'>
-                  {attr?.["gen_ai.input.messages"] || "-"}
-                </div>
-              </Popover>
-
+          <div className="trace-list-io" onClick={(e) => e.stopPropagation()}>
+            <div className="trace-list-io-row">
+              <span className="trace-list-io-label">In</span>
+              <span className="trace-list-io-text" title={inputPreview || undefined}>
+                {inputPreview || '—'}
+              </span>
             </div>
-            <div className='flex'>
-              <span className='mr-2 inline-flex min-w-[48px]'>Output:</span>
-              <Popover placement="top" content={
-                <div style={{ maxWidth: 600 }}>
-                  <ReactJsonView
-                    style={{ height: 400, width: 600, overflow: "auto" }}
-                    src={safeJSONParse(attr?.["gen_ai.output.messages"])}
-                    name={false}
-                  />
-                </div>
-              }>
-                <div className='max-w-full whitespace-nowrap overflow-hidden text-ellipsis'>
-                  {attr?.["gen_ai.output.messages"] || "-"}
-                </div>
-              </Popover>
+            <div className="trace-list-io-row">
+              <span className="trace-list-io-label">Out</span>
+              <span className="trace-list-io-text" title={outputPreview || undefined}>
+                {outputPreview || '—'}
+              </span>
             </div>
           </div>
-        )
+        );
       }
     },
 
@@ -985,8 +1061,9 @@ function TracingPage() {
     {
       title: '操作',
       key: 'action',
-      render: (_: any, record: any) => (
-        <Button type="link" onClick={() => {
+          render: (_: any, record: any) => (
+        <Button type="link" onClick={(e) => {
+          e.stopPropagation();
           showDrawer(record);
         }}>
           查看详情
@@ -995,28 +1072,10 @@ function TracingPage() {
     },
   ];
 
-  const formatMessageToJSON = (str: string): [key: string, value: any][] => {
-    const json: any[] = safeJSONParse(str, () => []);
-    // const json2: any[] = safeJSONParse(str2, () => []);
-    const formatedData: any = {};
-    [...json].forEach((item) => {
-      if (formatedData[item.role]) {
-        formatedData[item.role].parts = formatedData[item.role].parts.concat(item.parts);
-      } else {
-        formatedData[item.role] = {
-          parts: [...item.parts]
-        };
-      }
-    })
-    return Object.entries(formatedData);
-
-  }
-
   const renderDrawerContent = () => {
     if (traceDetailLoading) return <div style={{ textAlign: 'center', padding: '48px 0' }}><Spin size="large" /></div>;
     if (!traceDetail) return <Empty description="无法加载Trace详情" />;
 
-    console.log(traceDetail, 'asd...')
     if (traceDetail.duration === 0 || traceDetail.startTime === undefined) {
       const start = traceDetail.spans[0];
       traceDetail.duration = start.duration;
@@ -1025,8 +1084,6 @@ function TracingPage() {
 
     const traceStartTime = traceDetail.startTime ? new Date(traceDetail.startTime).getTime() : 0;
     const traceTotalDuration = traceDetail.duration || 1;
-
-    const tracingAttr = selectedTrace?.attributes || {};
 
     const flattenedSpans = flattenTreeForWaterfall(spanTree, collapsedSpans);
 
@@ -1046,15 +1103,17 @@ function TracingPage() {
 
     return (
       <>
-      <Row gutter={[24, 24]}>
-        <Col span={15}>
-          <Card title="Span 瀑布图" bodyStyle={{ padding: 0 }}>
+        <div className="trace-peek">
+          <div className="trace-peek-nav">
+            <div className="trace-peek-nav-header">
+              <span>Spans</span>
+              <span className="trace-muted">{formatDuration(traceTotalDuration)}</span>
+            </div>
             <div className="span-waterfall-chart">
-              <div className="flex items-center w-full border-b border-gray-200 bg-gray-50 font-semibold text-xs text-gray-500">
-                <div className="w-3/5 shrink-0 p-2">Operation Name</div>
-                <div className="flex-grow relative p-2">Timeline</div>
+              <div className="span-waterfall-header">
+                <span>Operation</span>
+                <span>Timeline</span>
               </div>
-              <div className='p-2'>
               {spanTree.length > 0 ? (
                 flattenedSpans.map(({ span, depth }) => (
                   <SpanWaterfallRow
@@ -1072,158 +1131,121 @@ function TracingPage() {
               ) : (
                 <div className="p-4 text-center text-gray-500">No spans in this trace.</div>
               )}
-              </div>
             </div>
-          </Card>
-        </Col>
-          <Col span={9}>
-            <Card title={`Span 详情: ${selectedSpan?.operationName || '-'}`}>
-            {
-              selectedSpan ? (
-                <Tabs defaultActiveKey="info">
-                  <Tabs.TabPane tab="基本信息" key="info">
-                    <div className='flex flex-col gap-2 mb-2'>
+          </div>
+
+          <div className="trace-peek-detail">
+            {selectedSpan ? (
+              <>
+                <div className="trace-peek-detail-header">
+                  <div className="trace-peek-detail-title" title={selectedSpan.operationName}>
+                    {selectedSpan.operationName}
+                  </div>
+                  <div className="trace-peek-detail-meta">
+                    <Tag color={STATUS_COLOR_MAP[selectedSpan.status?.code] || STATUS_COLOR_MAP.default}>
+                      {selectedSpan.status?.code || '—'}
+                    </Tag>
+                    <span className="trace-muted">{formatDuration(selectedSpan.duration)}</span>
+                  </div>
+                </div>
+                <Tabs
+                  className="trace-peek-tabs"
+                  defaultActiveKey="preview"
+                  items={[
                     {
-                      Boolean(selectedSpan.attributes?.["gen_ai.input.messages"]) && (
-                        <Card size="small" title="输入信息">
-                          <Tabs
-                            items={
-                              formatMessageToJSON(selectedSpan.attributes["gen_ai.input.messages"]).map(([key, value]) => {
-                                return (
-                                  {
-                                    label: key,
-                                    key: key,
-                                    children: (
-                                      <ReactJsonView name={false} collapsed={1} src={value} />
-                                    )
-                                  }
-                                )
-                              })
-                            }
-                          />
-                        </Card>
-                      )
-                    }
+                      key: 'preview',
+                      label: 'Preview',
+                      children: (
+                        <div className="trace-peek-tab-body">
+                          {selectedSpan.attributes?.['gen_ai.input.messages'] ? (
+                            <PrettyJsonBlock
+                              key={`${selectedSpan.spanID}-input`}
+                              title="Input"
+                              data={selectedSpan.attributes['gen_ai.input.messages']}
+                            />
+                          ) : null}
+                          {selectedSpan.attributes?.['gen_ai.output.messages'] ? (
+                            <PrettyJsonBlock
+                              key={`${selectedSpan.spanID}-output`}
+                              title="Output"
+                              data={selectedSpan.attributes['gen_ai.output.messages']}
+                            />
+                          ) : null}
+                          {!selectedSpan.attributes?.['gen_ai.input.messages'] &&
+                          !selectedSpan.attributes?.['gen_ai.output.messages'] ? (
+                            <Empty description="该 Span 无 Input / Output" image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                          ) : null}
+                          <div className="trace-meta-grid">
+                            <div><Text type="secondary">SpanId</Text><div className="trace-mono">{selectedSpan.spanID}</div></div>
+                            <div><Text type="secondary">Kind</Text><div>{selectedSpan.kind || '—'}</div></div>
+                            <div><Text type="secondary">Start</Text><div>{formatDateTime(selectedSpan.startTime)}</div></div>
+                            <div><Text type="secondary">End</Text><div>{formatDateTime(selectedSpan.finishTime)}</div></div>
+                          </div>
+                        </div>
+                      ),
+                    },
                     {
-                      Boolean(selectedSpan.attributes["gen_ai.output.messages"])&& (
-                        <Card size="small" title="输出信息">
-                          <Tabs
-                            items={
-                              formatMessageToJSON(selectedSpan.attributes["gen_ai.output.messages"]).map(([key, value]) => {
-                                return (
-                                  {
-                                    label: key,
-                                    key: key,
-                                    children: (
-                                      <ReactJsonView name={false} collapsed={1} src={value} />
-                                    )
-                                  }
-                                )
-                              })
-                            }
-                          />
-                        </Card>
-                      )
-                    }
-                    </div>
-                    <Row gutter={[0, 12]}>
-                      <Col span={12}><Text strong>SpanId:</Text> {selectedSpan.spanID}</Col>
-                      <Col span={12}><Text strong>类型:</Text> {selectedSpan.operationName}</Col>
-                      <Col span={12}><Text strong>Kind:</Text> {selectedSpan.kind}</Col>
-                      <Col span={12}><Text strong>状态:</Text> {selectedSpan.status.code}</Col>
-                      <Col span={12}><Text strong>开始时间:</Text> {formatDateTime(selectedSpan.startTime)}</Col>
-                      <Col span={12}><Text strong>结束时间:</Text> {formatDateTime(selectedSpan.finishTime)}</Col>
-                      <Col span={12}><Text strong>持续时间:</Text> {formatDuration(selectedSpan.duration)}</Col>
-                    </Row>
-                  </Tabs.TabPane>
-                  <Tabs.TabPane tab="属性" key="attributes" className='flex flex-col gap-4'>
-                    <Card size="small" title="AI 相关属性">
-                      {
-                        Object.entries(aiAttr).map(([key, value]) => {
-                          return (
-                            <div className='flex justify-between px-2 py-2 gap-10' style={{borderBottom: "1px solid #eee"}}>
-                              <div>{key}</div>
-                              <div className='flex max-w-full overflow-hidden gap-2'>
-                                <Popover
-                                  content={(
-                                    <div style={{maxWidth: 300, maxHeight: 200, overflow: 'auto'}}>
-                                      {value as string}
-                                    </div>
-                                  )}
-                                >
-                                  <div className='text-blue-500 flex-1 overflow-hidden text-ellipsis whitespace-nowrap'>{value as string}</div>
-                                </Popover>
-                                <CopyOutlined
-                                  onClick={() => {
-                                    copyToClipboard(value as string).then(() => {
-                                      message.success("复制成功")
-                                    }).catch((error) => {
-                                      message.error("复制失败")
-                                    });
-                                  }}
-                                className='text-blue-400 cursor-pointer' />
-                              </div>
+                      key: 'metadata',
+                      label: 'Metadata',
+                      children: (
+                        <div className="trace-peek-tab-body">
+                          <div className="trace-io-block">
+                            <div className="trace-io-block-title">AI attributes</div>
+                            <div className="trace-attr-list">
+                              {Object.keys(aiAttr).length ? (
+                                Object.entries(aiAttr).map(([key, value]) => (
+                                  <AttrRow key={key} name={key} value={value} />
+                                ))
+                              ) : (
+                                <div className="trace-muted p-3">无 AI 属性</div>
+                              )}
                             </div>
-                          )
-                        })
-                      }
-                    </Card>
-                    <Card size="small" title="其他属性">
-                      {
-                        Object.entries(otherAttr).map(([key, value]) => {
-                          return (
-                            <div className='flex justify-between px-2 py-2 gap-10' style={{borderBottom: "1px solid #eee"}}>
-                              <div>{key}</div>
-                              <div className='flex max-w-full overflow-hidden gap-2'>
-                                <Popover
-                                  content={(
-                                    <div style={{maxWidth: 300, maxHeight: 200, overflow: 'auto'}}>
-                                      {value as string}
-                                    </div>
-                                  )}
-                                >
-                                  <div className='text-blue-500 flex-1 overflow-hidden text-ellipsis whitespace-nowrap'>{value as string}</div>
-                                </Popover>
-                                <CopyOutlined
-                                  onClick={() => {
-                                    copyToClipboard(value as string).then(() => {
-                                      message.success("复制成功")
-                                    }).catch((error) => {
-                                      message.error("复制失败")
-                                    });
-                                  }}
-                                className='text-blue-400 cursor-pointer' />
-                              </div>
+                          </div>
+                          <div className="trace-io-block">
+                            <div className="trace-io-block-title">Other attributes</div>
+                            <div className="trace-attr-list">
+                              {Object.keys(otherAttr).length ? (
+                                Object.entries(otherAttr).map(([key, value]) => (
+                                  <AttrRow key={key} name={key} value={value} />
+                                ))
+                              ) : (
+                                <div className="trace-muted p-3">无其他属性</div>
+                              )}
                             </div>
-                          )
-                        })
-                      }
-                    </Card>
-                  </Tabs.TabPane>
-                  <Tabs.TabPane tab="事件" key="events">
+                          </div>
+                        </div>
+                      ),
+                    },
                     {
-                      selectedSpan.events.length > 0 ? (
-                        <Timeline>
-                          {selectedSpan.events.map((event, index) => (
-                            <Timeline.Item key={index}>
-                              <p><strong>{event.name}</strong> - {formatDateTime(event.timestamp)}</p>
-                              <pre>{JSON.stringify(event.attributes, null, 2)}</pre>
-                            </Timeline.Item>
-                          ))}
-                        </Timeline>
-                      ) : (
-                        <Empty description="暂无事件" />
-                      )
-                    }
-                  </Tabs.TabPane>
-                </Tabs>
-              ) : (
+                      key: 'events',
+                      label: 'Events',
+                      children: (
+                        <div className="trace-peek-tab-body">
+                          {selectedSpan.events?.length > 0 ? (
+                            <Timeline>
+                              {selectedSpan.events.map((event, index) => (
+                                <Timeline.Item key={index}>
+                                  <p><strong>{event.name}</strong> - {formatDateTime(event.timestamp)}</p>
+                                  <PrettyJsonBlock title="attributes" data={event.attributes || {}} maxHeight={200} />
+                                </Timeline.Item>
+                              ))}
+                            </Timeline>
+                          ) : (
+                            <Empty description="暂无事件" image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                          )}
+                        </div>
+                      ),
+                    },
+                  ]}
+                />
+              </>
+            ) : (
+              <div className="trace-peek-empty">
                 <Empty description="请选择一个 Span 查看详情" />
-              )
-            }
-            </Card>
-          </Col>
-        </Row>
+              </div>
+            )}
+          </div>
+        </div>
 
         {/* 添加到评测集弹出框 */}
         <Modal
@@ -1584,20 +1606,28 @@ function TracingPage() {
             onShowSizeChange: onShowSizeChange
           }}
           rowKey="spanId"
+          onRow={(record) => ({
+            onClick: () => showDrawer(record),
+            className: selectedTrace?.traceId === record.traceId ? 'trace-row-active' : undefined,
+            style: { cursor: 'pointer' },
+          })}
         />
       </Card>
       <Drawer
+        className="trace-peek-drawer"
         title={
-          <div className='flex items-center'>
-            Trace 详情
-            <Paragraph className='ml-2' style={{marginBottom: 0}} copyable={{ text: traceDetail?.traceID }}>
-              {traceDetail?.traceID}</Paragraph>
+          <div className='flex items-center flex-wrap gap-2'>
+            <span>Trace</span>
+            <Paragraph className='!mb-0' copyable={{ text: traceDetail?.traceID || selectedTrace?.traceId }}>
+              {traceDetail?.traceID || selectedTrace?.traceId || '—'}
+            </Paragraph>
           </div>
         }
-        width="85%"
+        width="78%"
         onClose={closeDrawer}
         open={drawerVisible}
         destroyOnHidden
+        styles={{ body: { padding: 0, height: 'calc(100% - 55px)', overflow: 'hidden' } }}
       >
         {renderDrawerContent()}
       </Drawer>

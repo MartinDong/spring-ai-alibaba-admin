@@ -12,6 +12,7 @@ import {
   queryComponentsByCodes,
   queryKnowledgeListByCode,
   queryMCPsByCodes,
+  querySkillsByIds,
   queryToolsByCode,
 } from '../..';
 import { AssistantAppContext } from '../../AssistantAppContext';
@@ -104,6 +105,13 @@ const needCheckCfgList = [
     }),
     code: 'workflow_components',
   },
+  {
+    label: $i18n.get({
+      id: 'main.pages.App.AssistantAppEdit.components.AssistantConfig.index.skill',
+      dm: '技能',
+    }),
+    code: 'skills',
+  },
 ];
 
 export default function AppConfigDiffModal(props: IProps) {
@@ -130,6 +138,9 @@ export default function AppConfigDiffModal(props: IProps) {
     const mcp_servers = await queryMCPsByCodes(
       publishConfig?.mcp_servers?.map((item) => item.id) || [],
     );
+    const skills = await querySkillsByIds(
+      publishConfig?.skills?.map((item) => item.id) || [],
+    );
     const agent_components = await queryComponentsByCodes(
       publishConfig?.agent_components,
     );
@@ -143,6 +154,7 @@ export default function AppConfigDiffModal(props: IProps) {
       ...publishConfig,
       tools,
       mcp_servers,
+      skills,
       agent_components,
       workflow_components,
       model,
@@ -166,6 +178,44 @@ export default function AppConfigDiffModal(props: IProps) {
             code: item.code,
             draftCfg: prevJsonCfg.model?.name,
             onlineCfg: nowJsonCfg.model?.name,
+          });
+          break;
+        case 'temperature':
+          if (
+            prevJsonCfg.parameter?.temperature ===
+            nowJsonCfg.parameter?.temperature
+          )
+            continue;
+          diffList.push({
+            title: item.label,
+            code: item.code,
+            draftCfg: prevJsonCfg.parameter?.temperature,
+            onlineCfg: nowJsonCfg.parameter?.temperature,
+          });
+          break;
+        case 'maxTokens':
+          if (
+            prevJsonCfg.parameter?.max_tokens ===
+            nowJsonCfg.parameter?.max_tokens
+          )
+            continue;
+          diffList.push({
+            title: item.label,
+            code: item.code,
+            draftCfg: prevJsonCfg.parameter?.max_tokens,
+            onlineCfg: nowJsonCfg.parameter?.max_tokens,
+          });
+          break;
+        case 'dialogRound':
+          if (
+            prevJsonCfg.memory?.dialog_round === nowJsonCfg.memory?.dialog_round
+          )
+            continue;
+          diffList.push({
+            title: item.label,
+            code: item.code,
+            draftCfg: prevJsonCfg.memory?.dialog_round,
+            onlineCfg: nowJsonCfg.memory?.dialog_round,
           });
           break;
         case 'instructions':
@@ -272,6 +322,56 @@ export default function AppConfigDiffModal(props: IProps) {
             code: item.code,
             draftCfg: prevMCPServerNames?.join('，'),
             onlineCfg: nowMCPServerNames?.join('，'),
+          });
+          break;
+        }
+        case 'agent_components': {
+          const prevCodes =
+            prevJsonCfg.agent_components?.map((item) => item.code!) || [];
+          const nowCodes =
+            nowJsonCfg.agent_components?.map((item) => item.code!) || [];
+          if (compareArrays(prevCodes, nowCodes)) continue;
+          diffList.push({
+            title: item.label,
+            code: item.code,
+            draftCfg: prevJsonCfg.agent_components
+              ?.map((item) => item.name)
+              .join('，'),
+            onlineCfg: nowJsonCfg.agent_components
+              ?.map((item) => item.name)
+              .join('，'),
+          });
+          break;
+        }
+        case 'workflow_components': {
+          const prevCodes =
+            prevJsonCfg.workflow_components?.map((item) => item.code!) || [];
+          const nowCodes =
+            nowJsonCfg.workflow_components?.map((item) => item.code!) || [];
+          if (compareArrays(prevCodes, nowCodes)) continue;
+          diffList.push({
+            title: item.label,
+            code: item.code,
+            draftCfg: prevJsonCfg.workflow_components
+              ?.map((item) => item.name)
+              .join('，'),
+            onlineCfg: nowJsonCfg.workflow_components
+              ?.map((item) => item.name)
+              .join('，'),
+          });
+          break;
+        }
+        case 'skills': {
+          const prevCodes =
+            prevJsonCfg.skills?.map((item) => item.skill_id) || [];
+          const nowCodes =
+            nowJsonCfg.skills?.map((item) => item.skill_id) || [];
+          if (compareArrays(prevCodes, nowCodes)) continue;
+          diffList.push({
+            title: item.label,
+            code: item.code,
+            draftCfg: prevJsonCfg.skills?.map((item) => item.name).join('，'),
+            onlineCfg: nowJsonCfg.skills?.map((item) => item.name).join('，'),
           });
           break;
         }

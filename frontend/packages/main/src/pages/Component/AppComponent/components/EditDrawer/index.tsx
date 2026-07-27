@@ -67,11 +67,15 @@ export default function EditDrawer(props: IProps) {
   const handleSave = () => {
     form.validateFields().then((formValues: any) => {
       const { input } = state;
-      let params = [...input.system_params];
-      input.user_params.forEach((item) => {
-        params = [...params, ...item.params];
+      const systemParams = input?.system_params || [];
+      const userParamGroups = input?.user_params || [];
+      let params = [...systemParams];
+      userParamGroups.forEach((item) => {
+        params = [...params, ...(item?.params || [])];
       });
-      if (params.some((item) => !item.alias && item.display)) {
+      // Only validate aliases that are visible to consumers
+      const visibleParams = params.filter((item) => item?.display);
+      if (visibleParams.some((item) => !String(item.alias || '').trim())) {
         message.warning(
           $i18n.get({
             id: 'main.pages.Component.AppComponent.components.EditDrawer.index.parameterAliasRequiredCheck',
@@ -80,20 +84,20 @@ export default function EditDrawer(props: IProps) {
         );
         return;
       }
-      const aliasMap = new Map();
-      for (const item of params) {
-        if (item.alias) {
-          if (aliasMap.has(item.alias)) {
-            message.warning(
-              $i18n.get({
-                id: 'main.pages.Component.AppComponent.components.EditDrawer.index.parameterAliasCannotRepeatCheck',
-                dm: '参数别名不能重复，请检查',
-              }),
-            );
-            return;
-          }
-          aliasMap.set(item.alias, true);
+      const aliasMap = new Map<string, string>();
+      for (const item of visibleParams) {
+        const alias = String(item.alias || '').trim();
+        if (!alias) continue;
+        if (aliasMap.has(alias)) {
+          message.warning(
+            $i18n.get({
+              id: 'main.pages.Component.AppComponent.components.EditDrawer.index.parameterAliasCannotRepeatCheck',
+              dm: '参数别名不能重复，请检查',
+            }),
+          );
+          return;
         }
+        aliasMap.set(alias, item.field);
       }
       setState({ saveLoading: true });
       const updateApi = props.data.code
@@ -176,19 +180,37 @@ export default function EditDrawer(props: IProps) {
   useMount(async () => {
     try {
       if (props.data.code) {
-        const res = await getAppComponentDetailByCode(props.data.code);
-        if (!res) return;
+        // detail-by-code merges app runtime schemas into config (nested user_params),
+        // which can introduce duplicate aliases. Editing must use the component-stored
+        // config (from list item) and only refresh name/description from detail API.
+        let detail: IAppComponentListItem | null = null;
+        try {
+          detail = await getAppComponentDetailByCode(props.data.code);
+        } catch {
+          detail = null;
+        }
+        const storedConfigStr = props.data.config || '{}';
         const componentDetailCfg = normalizeComponentConfig(
-          JSON.parse(res.config || '{}'),
+          JSON.parse(storedConfigStr || '{}'),
         );
+        const resolvedDetail = {
+          ...(detail || props.data),
+          // Keep unmerged stored config for save, avoid writing merge artifacts back
+          config: storedConfigStr,
+          name: detail?.name ?? props.data.name,
+          description: detail?.description ?? props.data.description,
+          app_id: detail?.app_id ?? props.data.app_id,
+          type: detail?.type ?? props.data.type,
+          code: props.data.code,
+        } as IAppComponentListItem;
         setState({
           input: componentDetailCfg.input,
           output: componentDetailCfg.output,
-          detail: res,
+          detail: resolvedDetail,
         });
         form.setFieldsValue({
-          name: res.name,
-          description: res.description,
+          name: resolvedDetail.name,
+          description: resolvedDetail.description,
         });
       } else {
         const ret = await getConfigByAppId(props.data.app_id as string);
