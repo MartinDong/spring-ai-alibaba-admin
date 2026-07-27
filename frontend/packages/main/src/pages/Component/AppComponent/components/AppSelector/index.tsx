@@ -259,8 +259,8 @@ export function AppSelectorModalByAppComponent(props: IAppModalProps) {
         dm: '选择应用',
       })}
     >
-      <Flex vertical gap={12}>
-        <Flex justify="space-between" align="center">
+      <Flex vertical gap={0}>
+        <Flex justify="space-between" align="flex-start">
           <Search
             className={styles.search}
             value={state.app_name}

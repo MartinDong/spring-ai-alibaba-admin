@@ -282,8 +282,10 @@ services:
       - MODEL_CONFIG_FILE=/app/model-config.yml
       - DASHSCOPE_API_KEY=${DASHSCOPE_API_KEY:-}
       - SEEAPI_API_KEY=${SEEAPI_API_KEY:-}
+      - SPRING_AI_ALIBABA_STUDIO_STORAGE_PATH=/app/storage
     volumes:
       - ./model-config.yml:/app/model-config.yml:ro
+      - ./data/admin-storage:/app/storage
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/actuator/health"]
       interval: 30s
