@@ -61,8 +61,8 @@ export default function AppComponent(props: { type: IAppType }) {
     })
       .then((res) => {
         setState({
-          list: res.records,
-          total: res.total,
+          list: res?.records || [],
+          total: res?.total || 0,
         });
       })
       .finally(() => {

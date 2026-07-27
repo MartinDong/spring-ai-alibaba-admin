@@ -58,6 +58,10 @@ import static com.alibaba.cloud.ai.studio.core.utils.LogUtils.SUCCESS;
 @RequiredArgsConstructor
 public class KnowledgeBaseDocumentRetriever implements DocumentRetriever {
 
+	private static final int DEFAULT_TOP_K = 3;
+
+	private static final float DEFAULT_SIMILARITY_THRESHOLD = 0.2f;
+
 	/** List of knowledge bases to search from */
 	private final List<KnowledgeBase> knowledgeBases;
 
@@ -96,10 +100,14 @@ public class KnowledgeBaseDocumentRetriever implements DocumentRetriever {
 				documents.addAll(future.get(SEARCH_TIMEOUT, TimeUnit.SECONDS));
 			}
 
+			float similarityThreshold = searchOptions.getSimilarityThreshold() != null
+					? searchOptions.getSimilarityThreshold() : DEFAULT_SIMILARITY_THRESHOLD;
+			int topK = searchOptions.getTopK() != null ? searchOptions.getTopK() : DEFAULT_TOP_K;
+
 			List<Document> results = documents.stream()
 				.sorted(Comparator.comparing(Document::getScore, Comparator.nullsLast(Comparator.reverseOrder())))
-				.filter(x -> x.getScore() != null && x.getScore() > searchOptions.getSimilarityThreshold())
-				.limit(searchOptions.getTopK())
+				.filter(x -> x.getScore() != null && x.getScore() > similarityThreshold)
+				.limit(topK)
 				.toList();
 
 			LogUtils.monitor("DocumentRetriever", "retrieve", start, SUCCESS, query.text(), results.size());
@@ -150,7 +158,7 @@ public class KnowledgeBaseDocumentRetriever implements DocumentRetriever {
 		}
 
 		List<Document> documents = vectorStore.similaritySearch(searchRequestBuilder.build());
-		if (searchOptions.getEnableRerank()) {
+		if (Boolean.TRUE.equals(searchOptions.getEnableRerank())) {
 			documents = rerankDocuments(searchOptions, query, documents);
 		}
 
