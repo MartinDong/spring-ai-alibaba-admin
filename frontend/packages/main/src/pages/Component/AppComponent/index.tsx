@@ -15,7 +15,6 @@ import {
 import { IconFont } from '@spark-ai/design';
 import { useSetState } from 'ahooks';
 import { Button, message, Modal } from 'antd';
-import classNames from 'classnames';
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppSelectorModalByAppComponent } from './components/AppSelector';
@@ -180,7 +179,6 @@ export default function AppComponent(props: { type: IAppType }) {
           })}
           value={state.name}
           onChange={(val) => setState({ name: val })}
-          className={classNames('mx-[20px] my-[16px]')}
           onSearch={handleSearch}
         />
       )}
