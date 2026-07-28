@@ -1,0 +1,129 @@
+[
+  {
+    "code": "2081587257435938818",
+    "name": "交通事故查询Agent",
+    "type": "basic",
+    "app_id": "2081577084405129218",
+    "config": {
+      "input": {
+        "user_params": [],
+        "system_params": [
+          {
+            "type": "String",
+            "alias": "query",
+            "field": "query",
+            "source": "model",
+            "display": true,
+            "required": true
+          }
+        ]
+      },
+      "output": [
+        {
+          "type": "String",
+          "field": "output",
+          "source": "model",
+          "display": true,
+          "required": false
+        }
+      ]
+    },
+    "status": 1,
+    "description": "测试智能体组件",
+    "need_update": 0,
+    "workspace_id": "1"
+  },
+  {
+    "code": "2081588828106317825",
+    "name": "测试工作流",
+    "type": "workflow",
+    "app_id": "2081587430652305409",
+    "config": {
+      "input": {
+        "user_params": [
+          {
+            "code": "2081587430652305409",
+            "name": "流程编排_7VP1",
+            "params": [
+              {
+                "type": "String",
+                "alias": "city",
+                "field": "city",
+                "source": "model",
+                "display": true,
+                "required": false,
+                "description": "城市"
+              },
+              {
+                "type": "String",
+                "alias": "date",
+                "field": "date",
+                "source": "model",
+                "display": true,
+                "required": false,
+                "description": "日期"
+              }
+            ]
+          }
+        ],
+        "system_params": [
+          {
+            "type": "String",
+            "alias": "query",
+            "field": "query",
+            "source": "model",
+            "display": true,
+            "required": true
+          }
+        ]
+      },
+      "output": [
+        {
+          "type": "String",
+          "field": "output",
+          "source": "model",
+          "display": true,
+          "required": false
+        }
+      ]
+    },
+    "status": 1,
+    "description": "测试工作流",
+    "need_update": 0,
+    "workspace_id": "1"
+  },
+  {
+    "code": "2081674308402204674",
+    "name": "景区流量Agent",
+    "type": "basic",
+    "app_id": "2081674179070840834",
+    "config": {
+      "input": {
+        "user_params": [],
+        "system_params": [
+          {
+            "type": "String",
+            "alias": "query",
+            "field": "query",
+            "source": "model",
+            "display": true,
+            "required": true
+          }
+        ]
+      },
+      "output": [
+        {
+          "type": "String",
+          "field": "output",
+          "source": "model",
+          "display": true,
+          "required": false
+        }
+      ]
+    },
+    "status": 1,
+    "description": "景区流量Agent",
+    "need_update": 0,
+    "workspace_id": "1"
+  }
+]

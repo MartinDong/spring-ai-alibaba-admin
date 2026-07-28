@@ -1,0 +1,57 @@
+[
+  {
+    "name": "Sample Greeting Skill",
+    "source": "user",
+    "status": 0,
+    "skill_id": "2081626422176043009",
+    "gmt_create": "2026-07-27 14:23:08",
+    "skill_name": "sample-skill",
+    "description": "A demo skill that explains how to greet users politely.",
+    "storage_path": "skill/10000/1/2081626422176043009",
+    "workspace_id": "1"
+  },
+  {
+    "name": "seedoc-cli",
+    "source": "user",
+    "status": 0,
+    "skill_id": "2081628181916876802",
+    "gmt_create": "2026-07-27 14:30:08",
+    "skill_name": "seedoc-cli",
+    "description": "AI 知识库 (seedoc) CLI — 上传/页面 CRUD/搜索/AI 聊天。默认 prod。Agent 必读 references/agent-workflow.md（鉴权→选空间/页→写操作确认）。",
+    "storage_path": "skill/10000/1/2081628181916876802",
+    "workspace_id": "1"
+  },
+  {
+    "name": "codex-ppt",
+    "source": "user",
+    "status": 0,
+    "skill_id": "2081628242528763905",
+    "gmt_create": "2026-07-27 14:30:22",
+    "skill_name": "codex-ppt",
+    "description": "Runtime home override.",
+    "storage_path": "skill/10000/1/2081628242528763905",
+    "workspace_id": "1"
+  },
+  {
+    "name": "Sample Greeting Skill",
+    "source": "user",
+    "status": 1,
+    "skill_id": "2081630339991269377",
+    "gmt_create": "2026-07-27 14:38:43",
+    "skill_name": "sample-skill",
+    "description": "A demo skill that explains how to greet users politely.",
+    "storage_path": "skill/10000/1/2081630339991269377",
+    "workspace_id": "1"
+  },
+  {
+    "name": "codex-ppt",
+    "source": "user",
+    "status": 1,
+    "skill_id": "2081630816158019585",
+    "gmt_create": "2026-07-27 14:40:36",
+    "skill_name": "codex-ppt",
+    "description": "Runtime home override.",
+    "storage_path": "skill/10000/1/2081630816158019585",
+    "workspace_id": "1"
+  }
+]

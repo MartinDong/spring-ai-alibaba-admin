@@ -90,6 +90,22 @@ export default defineConfig({
       component: 'MCP/Detail',
     },
     {
+      path: '/a2a',
+      component: 'A2A/index',
+    },
+    {
+      path: '/a2a/create',
+      component: 'A2A/Create',
+    },
+    {
+      path: '/a2a/edit/:agentCode',
+      component: 'A2A/Create',
+    },
+    {
+      path: '/a2a/detail/:agentCode',
+      component: 'A2A/Detail',
+    },
+    {
       path: '/component/:tab',
       component: 'Component/index',
     },

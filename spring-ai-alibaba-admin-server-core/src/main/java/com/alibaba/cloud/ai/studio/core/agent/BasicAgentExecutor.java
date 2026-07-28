@@ -33,6 +33,7 @@ import com.alibaba.cloud.ai.studio.runtime.domain.app.AgentConfig;
 import com.alibaba.cloud.ai.studio.runtime.domain.app.FileSearchOptions;
 import com.alibaba.cloud.ai.studio.runtime.domain.knowledgebase.DocumentChunk;
 import com.alibaba.cloud.ai.studio.runtime.utils.JsonUtils;
+import com.alibaba.cloud.ai.studio.core.base.service.A2aRemoteAgentService;
 import com.alibaba.cloud.ai.studio.core.base.service.McpServerService;
 import com.alibaba.cloud.ai.studio.core.base.service.PluginService;
 import com.alibaba.cloud.ai.studio.core.base.service.SkillService;
@@ -117,6 +118,9 @@ public class BasicAgentExecutor extends AbstractAgentExecutor {
 
 	/** Service for MCP server interactions */
 	private final McpServerService mcpServerService;
+
+	/** Service for A2A remote agent interactions */
+	private final A2aRemoteAgentService a2aRemoteAgentService;
 
 	/** Manager for app components */
 	private final AppComponentManager appComponentManager;
@@ -683,7 +687,7 @@ public class BasicAgentExecutor extends AbstractAgentExecutor {
 	private CompositeToolCallbackProvider buildToolCallbackProvider(AgentConfig config,
 			Map<String, Object> extraParams) {
 		return new CompositeToolCallbackProvider(config, pluginService, toolExecutionService, mcpServerService,
-				appComponentManager, skillService, studioProperties, extraParams);
+				a2aRemoteAgentService, appComponentManager, skillService, studioProperties, extraParams);
 	}
 
 	private ToolCallingManager buildToolCallingManager() {

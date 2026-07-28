@@ -14,6 +14,7 @@ import { AssistantPromptEditorWrap } from '../AssistantPromptEditor';
 import AssistantTestWindow from '../AssistantTestWindow';
 import HistoryPanelComp from '../HistoryPanel/HistoryPanelComp';
 import KnowledgeBaseSelectorComp from '../KnowledgeSelectorComp';
+import A2ASelectorComp from '../A2ASelectorComp';
 import MCPSelectorComp from '../MCPSelectorComp';
 import PluginSelectorComp from '../PluginSelectorComp';
 import SkillSelectorComp from '../SkillSelectorComp';
@@ -181,6 +182,7 @@ export default function AssistantConfig() {
                         })}
                       </div>
                       <MCPSelectorComp />
+                      <A2ASelectorComp />
                       <PluginSelectorComp />
                       <SkillSelectorComp />
                       <AgentSelectorComp />

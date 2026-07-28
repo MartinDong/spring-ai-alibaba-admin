@@ -10,6 +10,7 @@ import { IteratorEndSchema } from './IteratorEnd/schema';
 import { IteratorStartSchema } from './IteratorStart/schema';
 import { JudgeSchema } from './Judge/schema';
 import { LLMSchema } from './LLM/schema';
+import { A2ASchema } from './A2A/schema';
 import { MCPSchema } from './MCP/schema';
 import { OutputSchema } from './Output/schema';
 import { ParallelSchema } from './Parallel/schema';
@@ -79,6 +80,7 @@ export const NODE_SCHEMA_MAP: Record<string, INodeSchema> = {
   VariableAssign: VariableAssignSchema,
   ParameterExtractor: ParameterExtractorSchema,
   MCP: MCPSchema,
+  A2A: A2ASchema,
   API: APISchema,
   AppComponent: AppComponentSchema,
   Plugin: PluginSchema,

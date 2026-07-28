@@ -45,8 +45,10 @@ import PublishAppSuccessModal from '../AssistantAppEdit/components/PublishAppSuc
 import ChannelConfig from '../components/ChannelConfig';
 import { channelConfigEventBus } from '../components/ChannelConfig/PublishComponentCard';
 import { EditNameModal } from '../components/EditNameModal';
+import { A2aAgentSelectModalFuncs } from '../components/A2ASelector';
 import { MCPToolSelectModalFuncs } from '../components/MCPSelector';
 import { ToolSelectorModalFuncs } from '../components/PluginSelector/show';
+import PublishA2AButton from '../components/PublishA2AButton';
 import { ComponentSelectorModalFuncs } from './components/ComponentSelectorModal/show';
 import GlobalVariableFormModal from './components/GlobalVariableFormModal';
 import { HistoryConfigBtn } from './components/HistoryConfigModal';
@@ -65,6 +67,7 @@ import getConfigPanel from './nodes/getConfigPanel';
 import { NODE_SCHEMA_MAP } from './nodes/nodeSchemaMap';
 import {
   IAppComponentNodeParam,
+  IA2ANodeParam,
   IMCPNodeParam,
   IPluginNodeParam,
 } from './types';
@@ -200,6 +203,12 @@ export const FlowBase = memo((props: IFlowBaseProps) => {
               >
                 导出SAA工程代码
               </Button>
+              <PublishA2AButton
+                appId={props.appDetail.app_id}
+                appType="workflow"
+                defaultName={props.appDetail.name}
+                defaultDescription={props.appDetail.description}
+              />
               <Button
                 disabled={actionLoading}
                 onClick={() => {
@@ -400,6 +409,33 @@ export const FlowEditor = memo((props: IProps) => {
                       server_name: server.name,
                     },
                     input_params: getMCPNodeInputParams(tool),
+                  },
+                });
+              },
+            });
+            break;
+          case 'A2A':
+            A2aAgentSelectModalFuncs.show({
+              onCancel: () => resolve(null),
+              onOk: (agent) => {
+                resolve({
+                  ...data,
+                  data: {
+                    ...data.data,
+                    label: agent.name,
+                    node_param: {
+                      ...(data.data.node_param as IA2ANodeParam),
+                      agent_code: agent.agent_code,
+                      agent_name: agent.name,
+                    },
+                    input_params: [
+                      {
+                        key: 'input',
+                        type: 'String',
+                        value_from: 'refer',
+                        value: undefined,
+                      },
+                    ],
                   },
                 });
               },

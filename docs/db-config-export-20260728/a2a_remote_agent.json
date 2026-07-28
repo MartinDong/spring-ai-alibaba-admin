@@ -1,0 +1,48 @@
+[
+  {
+    "name": "景区流量查询Agent",
+    "status": 1,
+    "card_url": "http://172.30.10.28:9080/.well-known/agents/2081674179070840834/agent.json",
+    "card_json": {
+      "url": "http://172.30.10.28:9080/a2a/2081674179070840834",
+      "name": "景区流量查询Agent",
+      "skills": [
+        {
+          "id": "chat",
+          "name": "chat",
+          "tags": [
+            "chat"
+          ],
+          "examples": [],
+          "description": "Chat with the published Studio application"
+        }
+      ],
+      "version": "1.0.0",
+      "description": "用于查询景区客流量的Agent",
+      "capabilities": {
+        "streaming": false,
+        "pushNotifications": false,
+        "stateTransitionHistory": false
+      },
+      "protocolVersion": "0.3.0",
+      "defaultInputModes": [
+        "text/plain"
+      ],
+      "defaultOutputModes": [
+        "text/plain"
+      ],
+      "preferredTransport": "JSONRPC",
+      "additionalInterfaces": [
+        {
+          "url": "http://172.30.10.28:9080/a2a/2081674179070840834",
+          "transport": "JSONRPC"
+        }
+      ]
+    },
+    "agent_code": "local_a2a_2081674179070840834",
+    "description": "用于查询景区客流量的Agent",
+    "source_type": "URL",
+    "workspace_id": "1",
+    "nacos_agent_name": null
+  }
+]

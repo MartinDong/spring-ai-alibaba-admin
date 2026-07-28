@@ -1,6 +1,7 @@
 import $i18n from '@/i18n';
 import { IAppType } from '@/services/appComponent';
 import { IValueType } from '@spark-ai/flow';
+import { IA2aRemoteAgent } from './a2a';
 import { IAppComponentListItem } from './appComponent';
 import { IKnowledgeListItem } from './knowledge';
 import { IMcpServer } from './mcp';
@@ -139,6 +140,7 @@ export interface IAssistantConfig {
     similarity_threshold?: number; // Similarity threshold
   };
   mcp_servers?: { id: string }[]; // MCP servers
+  a2a_agents?: { id: string }[]; // A2A remote agents
   skills?: { id: string }[]; // Agent skills
   agent_components?: string[]; // Agent components
   workflow_components?: string[]; // Workflow components
@@ -156,6 +158,7 @@ export interface IAssistantConfigWithInfos
     | 'model'
     | 'tools'
     | 'mcp_servers'
+    | 'a2a_agents'
     | 'skills'
     | 'agent_components'
     | 'workflow_components'
@@ -164,6 +167,7 @@ export interface IAssistantConfigWithInfos
   model?: IModel;
   tools?: PluginTool[];
   mcp_servers?: IMcpServer[];
+  a2a_agents?: IA2aRemoteAgent[];
   skills?: ISkill[];
   agent_components?: IAppComponentListItem[];
   workflow_components?: IAppComponentListItem[];

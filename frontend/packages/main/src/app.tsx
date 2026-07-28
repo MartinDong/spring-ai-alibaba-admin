@@ -27,6 +27,7 @@ export function onRouteChange({ clientRoutes, location }) {
       dm: '应用',
     }),
     '/mcp': 'MCP',
+    '/a2a': 'A2A',
     '/component': $i18n.get({
       id: 'main.pages.Component.AppComponent.index.component',
       dm: '组件',

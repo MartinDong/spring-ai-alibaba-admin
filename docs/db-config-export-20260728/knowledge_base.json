@@ -1,0 +1,31 @@
+[
+  {
+    "name": "交通法律法规",
+    "type": "unstructured",
+    "kb_id": "2081577502875033602",
+    "status": 1,
+    "total_docs": 0,
+    "description": "",
+    "index_config": {
+      "name": "2081577502875033602",
+      "embedding_model": "Qwen/Qwen3-VL-Embedding-8B",
+      "embedding_provider": "24b0e20c"
+    },
+    "workspace_id": "1",
+    "search_config": {
+      "top_k": 3,
+      "search_type": "hybrid",
+      "rerank_model": "Qwen/Qwen3-VL-Reranker-8B",
+      "enable_rerank": false,
+      "enable_search": false,
+      "rerank_provider": "24b0e20c",
+      "similarity_threshold": 0.2
+    },
+    "process_config": {
+      "regex": "\\\\n\\\\n",
+      "chunk_size": 600,
+      "chunk_type": "length",
+      "chunk_overlap": 100
+    }
+  }
+]

@@ -9,6 +9,7 @@ import IteratorEndNode from './IteratorEnd/node';
 import IteratorStartNode from './IteratorStart/node';
 import JudgeNode from './Judge/node';
 import LLMNode from './LLM/node';
+import A2ANode from './A2A/node';
 import MCPNode from './MCP/node';
 import OutputNode from './Output/node';
 import ParallelNode from './Parallel/node';
@@ -41,6 +42,7 @@ const NODE_COMPONENT_MAP: Record<
   Input: InputNode,
   AppComponent: AppComponentNode,
   MCP: MCPNode,
+  A2A: A2ANode,
   Plugin: PluginNode,
   Iterator: IteratorNode,
   Parallel: ParallelNode,

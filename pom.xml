@@ -45,7 +45,10 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
 
-        <spring-ai-alibaba.version>1.0.0.3</spring-ai-alibaba.version>
+        <!-- Studio runtime (DashScope etc.) still needs 1.0.x core; A2A stack uses 1.1.2.2 -->
+        <spring-ai-alibaba.version>1.0.0.4</spring-ai-alibaba.version>
+        <spring-ai-alibaba-a2a.version>1.1.2.2</spring-ai-alibaba-a2a.version>
+        <a2a-sdk.version>0.2.5.Beta2</a2a-sdk.version>
         <spring-ai.version>1.0.3</spring-ai.version>
         <spring-boot.version>3.3.6</spring-boot.version>
 
@@ -209,6 +212,47 @@
                 <groupId>com.alibaba.cloud.ai</groupId>
                 <artifactId>spring-ai-alibaba-core</artifactId>
                 <version>${spring-ai-alibaba.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-graph-core</artifactId>
+                <version>${spring-ai-alibaba.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-agent-framework</artifactId>
+                <version>${spring-ai-alibaba-a2a.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.alibaba.cloud.ai</groupId>
+                        <artifactId>spring-ai-alibaba-graph-core</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-starter-a2a-nacos</artifactId>
+                <version>${spring-ai-alibaba-a2a.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.alibaba.cloud.ai</groupId>
+                        <artifactId>spring-ai-alibaba-graph-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.alibaba.cloud.ai</groupId>
+                        <artifactId>spring-ai-alibaba-agent-framework</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>io.github.a2asdk</groupId>
+                <artifactId>a2a-java-sdk-client</artifactId>
+                <version>${a2a-sdk.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.a2asdk</groupId>
+                <artifactId>a2a-java-sdk-server-common</artifactId>
+                <version>${a2a-sdk.version}</version>
             </dependency>
 
             <!-- Nacos -->

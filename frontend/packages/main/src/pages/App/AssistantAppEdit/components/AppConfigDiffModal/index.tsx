@@ -9,6 +9,7 @@ import { useMount, useSetState } from 'ahooks';
 import { Spin, Table } from 'antd';
 import { useContext, useMemo } from 'react';
 import {
+  queryA2aAgentsByCodes,
   queryComponentsByCodes,
   queryKnowledgeListByCode,
   queryMCPsByCodes,
@@ -93,6 +94,13 @@ const needCheckCfgList = [
   },
   {
     label: $i18n.get({
+      id: 'main.components.A2ASelectorComp.index.a2aAgent',
+      dm: 'A2A Agent',
+    }),
+    code: 'a2a_agents',
+  },
+  {
+    label: $i18n.get({
       id: 'main.pages.Component.index.intelligentAgent',
       dm: '智能体',
     }),
@@ -138,6 +146,9 @@ export default function AppConfigDiffModal(props: IProps) {
     const mcp_servers = await queryMCPsByCodes(
       publishConfig?.mcp_servers?.map((item) => item.id) || [],
     );
+    const a2a_agents = await queryA2aAgentsByCodes(
+      publishConfig?.a2a_agents?.map((item) => item.id) || [],
+    );
     const skills = await querySkillsByIds(
       publishConfig?.skills?.map((item) => item.id) || [],
     );
@@ -154,6 +165,7 @@ export default function AppConfigDiffModal(props: IProps) {
       ...publishConfig,
       tools,
       mcp_servers,
+      a2a_agents,
       skills,
       agent_components,
       workflow_components,
@@ -322,6 +334,20 @@ export default function AppConfigDiffModal(props: IProps) {
             code: item.code,
             draftCfg: prevMCPServerNames?.join('，'),
             onlineCfg: nowMCPServerNames?.join('，'),
+          });
+          break;
+        }
+        case 'a2a_agents': {
+          const prevCodes =
+            prevJsonCfg.a2a_agents?.map((item) => item.agent_code) || [];
+          const nowCodes =
+            nowJsonCfg.a2a_agents?.map((item) => item.agent_code) || [];
+          if (compareArrays(prevCodes, nowCodes)) continue;
+          diffList.push({
+            title: item.label,
+            code: item.code,
+            draftCfg: prevJsonCfg.a2a_agents?.map((item) => item.name).join('，'),
+            onlineCfg: nowJsonCfg.a2a_agents?.map((item) => item.name).join('，'),
           });
           break;
         }

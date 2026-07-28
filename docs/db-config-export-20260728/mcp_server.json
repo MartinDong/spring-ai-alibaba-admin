@@ -1,0 +1,17 @@
+[
+  {
+    "server_code": "2081994243039166466",
+    "name": "高德地图MCP",
+    "description": "高德地图MCP",
+    "type": "CUSTOMER",
+    "host": "https://mcp.api-inference.modelscope.net",
+    "install_type": "SSE",
+    "deploy_env": "",
+    "status": 1,
+    "workspace_id": "1",
+    "source": "",
+    "biz_type": "",
+    "deploy_config": "{\"remote_endpoint\":\"/0ac1ee70f34c4f/sse\",\"install_config\":\"{\\\\\"mcpServers\\\\\":{\\\\\"amap-maps\\\\\":{\\\\\"type\\\\\":\\\\\"sse\\\\\",\\\\\"url\\\\\":\\\\\"https://mcp.api-inference.modelscope.net/0ac1ee70f34c4f/sse\\\\\"}}}\",\"remote_address\":\"https://mcp.api-inference.modelscope.net\"}",
+    "detail_config": {}
+  }
+]

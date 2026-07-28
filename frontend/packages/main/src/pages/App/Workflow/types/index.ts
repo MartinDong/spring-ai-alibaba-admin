@@ -242,6 +242,12 @@ export interface IMCPNodeParam {
   server_name: string;
 }
 
+export interface IA2ANodeParam {
+  agent_code: string;
+  agent_name: string;
+  input?: string;
+}
+
 /* Node business parameter */
 export type INodeDataNodeParam =
   | IStartNodeParam
@@ -261,7 +267,8 @@ export type INodeDataNodeParam =
   | IVariableAssignNodeParam
   | IVariableHandleNodeParam
   | IRetrievalNodeParam
-  | IMCPNodeParam;
+  | IMCPNodeParam
+  | IA2ANodeParam;
 
 export type IWorkFlowNodeData<T = INodeDataNodeParam> = {
   /* Node name */
@@ -308,6 +315,8 @@ export type IScriptNodeData = IWorkFlowNodeData<IScriptNodeParam>;
 export type IRetrievalNodeData = IWorkFlowNodeData<IRetrievalNodeParam>;
 
 export type IMCPNodeData = IWorkFlowNodeData<IMCPNodeParam>;
+
+export type IA2ANodeData = IWorkFlowNodeData<IA2ANodeParam>;
 
 export type IVariableAssignNodeData =
   IWorkFlowNodeData<IVariableAssignNodeParam>;

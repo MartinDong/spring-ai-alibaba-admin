@@ -18,11 +18,14 @@ package com.alibaba.cloud.ai.studio.core.agent.tool;
 
 import com.alibaba.cloud.ai.studio.core.agent.skill.WorkspaceSkillRegistry;
 import com.alibaba.cloud.ai.studio.core.base.manager.AppComponentManager;
+import com.alibaba.cloud.ai.studio.core.base.service.A2aRemoteAgentService;
 import com.alibaba.cloud.ai.studio.core.base.service.McpServerService;
 import com.alibaba.cloud.ai.studio.core.base.service.PluginService;
 import com.alibaba.cloud.ai.studio.core.base.service.SkillService;
 import com.alibaba.cloud.ai.studio.core.base.service.ToolExecutionService;
 import com.alibaba.cloud.ai.studio.core.config.StudioProperties;
+import com.alibaba.cloud.ai.studio.runtime.domain.a2a.A2aRemoteAgentDetail;
+import com.alibaba.cloud.ai.studio.runtime.domain.a2a.A2aRemoteAgentQuery;
 import com.alibaba.cloud.ai.studio.runtime.domain.app.AgentConfig;
 import com.alibaba.cloud.ai.studio.runtime.domain.mcp.McpQuery;
 import com.alibaba.cloud.ai.studio.runtime.domain.mcp.McpServerDetail;
@@ -61,6 +64,8 @@ public class CompositeToolCallbackProvider implements ToolCallbackProvider {
 
 	private final McpServerService mcpServerService;
 
+	private final A2aRemoteAgentService a2aRemoteAgentService;
+
 	private final AppComponentManager appComponentManager;
 
 	private final SkillService skillService;
@@ -91,6 +96,11 @@ public class CompositeToolCallbackProvider implements ToolCallbackProvider {
 		List<AgentConfig.McpServer> mcpServers = agentConfig.getMcpServers();
 		if (!CollectionUtils.isEmpty(mcpServers)) {
 			addToolCallbacks(toolCallbacks, buildMcpToolCallbacks(mcpServers));
+		}
+
+		List<AgentConfig.A2aAgent> a2aAgents = agentConfig.getA2aAgents();
+		if (!CollectionUtils.isEmpty(a2aAgents)) {
+			addToolCallbacks(toolCallbacks, buildA2aToolCallbacks(a2aAgents));
 		}
 
 		List<String> agentComponents = agentConfig.getAgentComponents();
@@ -129,11 +139,11 @@ public class CompositeToolCallbackProvider implements ToolCallbackProvider {
 
 	public static List<ToolCallback> toolCallbacks(AgentConfig config, PluginService pluginService,
 			ToolExecutionService toolExecutionService, McpServerService mcpServerService,
-			AppComponentManager appComponentManager, SkillService skillService, StudioProperties studioProperties,
-			Map<String, Object> extraParams) {
+			A2aRemoteAgentService a2aRemoteAgentService, AppComponentManager appComponentManager,
+			SkillService skillService, StudioProperties studioProperties, Map<String, Object> extraParams) {
 		CompositeToolCallbackProvider provider = new CompositeToolCallbackProvider(config, pluginService,
-				toolExecutionService, mcpServerService, appComponentManager, skillService, studioProperties,
-				extraParams);
+				toolExecutionService, mcpServerService, a2aRemoteAgentService, appComponentManager, skillService,
+				studioProperties, extraParams);
 		ToolCallback[] toolCallbacks = provider.getToolCallbacks();
 		if (ArrayUtils.isEmpty(toolCallbacks)) {
 			return List.of();
@@ -193,6 +203,29 @@ public class CompositeToolCallbackProvider implements ToolCallbackProvider {
 					callbacks.add(new McpToolCallback(mcpServerService, mcpServerDetail, tool, extraParams));
 				}
 			}
+		}
+		return callbacks;
+	}
+
+	private List<ToolCallback> buildA2aToolCallbacks(List<AgentConfig.A2aAgent> a2aAgents) {
+		if (CollectionUtils.isEmpty(a2aAgents) || a2aRemoteAgentService == null) {
+			return List.of();
+		}
+
+		List<String> agentCodes = a2aAgents.stream().map(AgentConfig.A2aAgent::getId).filter(Objects::nonNull).toList();
+		if (CollectionUtils.isEmpty(agentCodes)) {
+			return List.of();
+		}
+
+		List<A2aRemoteAgentDetail> details = a2aRemoteAgentService
+			.listByCodes(A2aRemoteAgentQuery.builder().agentCodes(agentCodes).build());
+		if (CollectionUtils.isEmpty(details)) {
+			return List.of();
+		}
+
+		List<ToolCallback> callbacks = new ArrayList<>();
+		for (A2aRemoteAgentDetail detail : details) {
+			callbacks.add(new A2AToolCallback(a2aRemoteAgentService, detail, extraParams));
 		}
 		return callbacks;
 	}

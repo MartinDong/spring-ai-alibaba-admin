@@ -73,7 +73,15 @@ public enum ToolCallType {
 
 	/** Result of a skill tool call */
 	@JsonProperty("skill_tool_result")
-	SKILL_TOOL_RESULT("skill_tool_result"),;
+	SKILL_TOOL_RESULT("skill_tool_result"),
+
+	/** A2A remote agent tool call type */
+	@JsonProperty("a2a_tool_call")
+	A2A_TOOL_CALL("a2a_tool_call"),
+
+	/** Result of an A2A remote agent tool call */
+	@JsonProperty("a2a_tool_result")
+	A2A_TOOL_RESULT("a2a_tool_result"),;
 
 	/** The string value representing this tool call type */
 	private final String value;

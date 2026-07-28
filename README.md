@@ -48,6 +48,13 @@ Agent Studio is an AI Agent development and evaluation platform based on Spring 
 - **Configuration Management**: Unified configuration and management of model parameters
 - **Dynamic Switching**: Support for dynamic updates of model configuration at runtime
 
+### 🤝 A2A (Agent-to-Agent)
+- **Publish as A2A Server**: Expose published Agent/Workflow apps via AgentCard (`/.well-known/agents/{appId}/agent.json`) and JSON-RPC (`POST /a2a/{appId}`); optional Nacos 3.x registration
+- **Consume remote A2A**: Side menu **A2A** to register remote agents (Card URL or Nacos name), attach as agent tools (`a2a_agents`) or Workflow **A2A** nodes
+- Uses `spring-ai-alibaba-starter-a2a-nacos` 1.1.2.2 with a Studio runtime bridge (not ReactAgent root beans)
+
+See [`docker/saa-admin/README.md`](./docker/saa-admin/README.md) for Docker notes (Nacos 3.x; run `a2a-schema-upgrade.sql` on existing DBs).
+
 ## System Architecture
 
 ### Overall Architecture

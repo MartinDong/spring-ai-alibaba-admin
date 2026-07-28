@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Tongyi",
+    "enable": 0,
+    "source": "preset",
+    "protocol": "OpenAI",
+    "provider": "Tongyi",
+    "credential": "***REDACTED***",
+    "description": "Tongyi",
+    "workspace_id": "1",
+    "has_credential": 1,
+    "supported_model_types": null
+  },
+  {
+    "name": "SeeAPI",
+    "enable": 1,
+    "source": "custom",
+    "protocol": "OpenAI",
+    "provider": "24b0e20c",
+    "credential": "***REDACTED***",
+    "description": "SeeAPI OpenAI-compatible gateway",
+    "workspace_id": "1",
+    "has_credential": 1,
+    "supported_model_types": "llm,text_embedding,rerank"
+  }
+]

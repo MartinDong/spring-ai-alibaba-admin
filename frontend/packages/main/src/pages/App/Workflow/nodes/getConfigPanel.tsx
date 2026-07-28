@@ -10,6 +10,7 @@ import {
   IIteratorNodeData,
   IJudgeNodeData,
   ILLMNodeData,
+  IA2ANodeData,
   IMCPNodeData,
   IOutputNodeData,
   IParallelNodeData,
@@ -29,6 +30,7 @@ import InputPanel from './InputNode/panel';
 import IteratorPanel from './Iterator/panel';
 import JudgePanel from './Judge/panel';
 import LLMPanel from './LLM/panel';
+import A2APanel from './A2A/panel';
 import MCPPanel from './MCP/panel';
 import OutputPanel from './Output/panel';
 import ParallelPanel from './Parallel/panel';
@@ -162,6 +164,14 @@ export default function getConfigPanel(
         <MCPPanel
           id={selectedNode.id}
           data={selectedNode.data as IMCPNodeData}
+        />
+      );
+
+    case 'A2A':
+      return (
+        <A2APanel
+          id={selectedNode.id}
+          data={selectedNode.data as IA2ANodeData}
         />
       );
 

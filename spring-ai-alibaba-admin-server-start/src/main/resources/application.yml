@@ -58,6 +58,17 @@ spring:
         model:
           capture-input: true
           capture-output: true
+      a2a:
+        nacos:
+          server-addr: ${NACOS_SERVER_ADDR:localhost:8848}
+          discovery:
+            enabled: false
+          registry:
+            enabled: false
+        server:
+          public-base-url: ${A2A_PUBLIC_BASE_URL:http://localhost:8080}
+  autoconfigure:
+    exclude: com.alibaba.cloud.ai.a2a.autoconfigure.server.A2aServerHandlerAutoConfiguration,com.alibaba.cloud.ai.a2a.autoconfigure.server.A2aServerAgentCardAutoConfiguration,com.alibaba.cloud.ai.a2a.autoconfigure.server.A2aServerAutoConfiguration,com.alibaba.cloud.ai.a2a.autoconfigure.server.A2aServerMultiAgentAutoConfiguration,com.alibaba.cloud.ai.a2a.autoconfigure.server.A2aServerRegistryAutoConfiguration,com.alibaba.cloud.ai.a2a.autoconfigure.nacos.NacosA2aDiscoveryAutoConfiguration,com.alibaba.cloud.ai.a2a.autoconfigure.nacos.NacosA2aRegistryAutoConfiguration,com.alibaba.cloud.ai.a2a.autoconfigure.client.A2aClientAgentCardProviderAutoConfiguration
   servlet:
     multipart:
       max-file-size: 50MB

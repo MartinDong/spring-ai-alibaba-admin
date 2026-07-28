@@ -268,6 +268,26 @@ public enum ErrorCode {
 	GET_TOOLS_ERROR(500, RESPONSE_ERROR, "DeleteMCPServerError", "Failed to delete MCPServer."),
 
 	/**
+	 * A2A error code
+	 */
+	CREATE_A2A_ERROR(500, RESPONSE_ERROR, "CreateA2AError", "Failed to create A2A remote agent. %s"),
+
+	UPDATE_A2A_ERROR(500, RESPONSE_ERROR, "UpdateA2AError", "Failed to update A2A remote agent. %s"),
+
+	DELETE_A2A_ERROR(500, RESPONSE_ERROR, "DeleteA2AError", "Failed to delete A2A remote agent."),
+
+	A2A_NOT_FOUND(404, RESPONSE_ERROR, "A2ANotFound", "A2A remote agent can not be found."),
+
+	A2A_CALL_ERROR(500, RESPONSE_ERROR, "A2ACallError",
+			"An internal error has occurred during A2A call, please try again later. %s"),
+
+	A2A_CARD_ERROR(500, RESPONSE_ERROR, "A2ACardError", "Failed to fetch or parse A2A agent card. %s"),
+
+	A2A_PUBLISH_ERROR(500, RESPONSE_ERROR, "A2APublishError", "Failed to publish app as A2A agent. %s"),
+
+	A2A_UNPUBLISH_ERROR(500, RESPONSE_ERROR, "A2AUnpublishError", "Failed to unpublish A2A agent. %s"),
+
+	/**
 	 * component error code
 	 */
 	APP_COMPONENT_LIST_ERROR(500, RESPONSE_ERROR, "ComponentListError", "Failed to obtain component list."),

@@ -14,6 +14,7 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   ApiOutlined,
+  ClusterOutlined,
   DatabaseOutlined,
   ToolOutlined,
   SwapOutlined,
@@ -42,6 +43,11 @@ const getSelectedMenuKey = (pathname: string): string => {
   // MCP 相关页面
   if (pathname.startsWith('/mcp')) {
     return '/mcp';
+  }
+
+  // A2A 相关页面
+  if (pathname.startsWith('/a2a')) {
+    return '/a2a';
   }
 
   // 组件相关页面
@@ -160,6 +166,11 @@ export default function SideMenuLayout({ children }: { children: React.ReactNode
             key: '/mcp',
             label: 'MCP',
             icon: <ApiOutlined />,
+          },
+          {
+            key: '/a2a',
+            label: 'A2A',
+            icon: <ClusterOutlined />,
           },
           {
             key: '/component',

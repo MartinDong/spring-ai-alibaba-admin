@@ -51,6 +51,17 @@ Spring AI Alibaba Admin 是一个基于 Spring AI Alibaba 的 AI Agent 开发与
 - **配置管理**: 模型参数的统一配置和管理
 - **动态切换**: 支持运行时模型配置的动态更新
 
+### 🤝 A2A（Agent-to-Agent）
+- **发布为 A2A Server**: 将已发布的智能体 / 工作流暴露为 AgentCard（`/.well-known/agents/{appId}/agent.json`）与 JSON-RPC 端点（`POST /a2a/{appId}`），可选注册到 Nacos 3.x
+- **消费远程 A2A**: 侧栏「A2A」管理远程 Agent（Card URL 或 Nacos 名），挂到智能体工具（`a2a_agents`）或工作流 A2A 节点
+- **依赖**: `spring-ai-alibaba-starter-a2a-nacos` / `agent-framework` 1.1.2.2；Studio 运行时通过自定义桥接执行，不依赖 ReactAgent 根 Bean
+
+双向演示简述：
+1. 发布应用 → 控制台「发布为 A2A」→ `curl` Card / `message/send`
+2. 另一应用在「A2A」登记 Card URL 或 Nacos 名 → 挂到工具或工作流节点 → 对话触发远程调用
+
+Docker 部署见 [`docker/saa-admin/README.md`](./docker/saa-admin/README.md)（Nacos 需 3.x；已有库执行 `a2a-schema-upgrade.sql`）。
+
 ## 系统架构
 
 ### 整体架构

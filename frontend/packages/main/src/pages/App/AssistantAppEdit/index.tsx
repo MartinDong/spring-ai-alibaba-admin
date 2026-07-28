@@ -11,6 +11,7 @@ import {
   updateApp,
 } from '@/services/appManage';
 import { getKnowledgeListByCodes } from '@/services/knowledge';
+import { listA2aAgentsByCodes } from '@/services/a2a';
 import { listMcpServersByCodes } from '@/services/mcp';
 import { getModelDetail } from '@/services/modelService';
 import { getPluginToolsByIds } from '@/services/plugin';
@@ -25,6 +26,7 @@ import {
   IAssistantConfigWithInfos,
   ModalityType,
 } from '@/types/appManage';
+import { IA2aRemoteAgent } from '@/types/a2a';
 import { IKnowledgeListItem } from '@/types/knowledge';
 import { IMcpServer } from '@/types/mcp';
 import { IModel } from '@/types/modelService';
@@ -64,6 +66,17 @@ export const queryMCPsByCodes = (codes?: string[]): Promise<IMcpServer[]> => {
   });
 };
 
+export const queryA2aAgentsByCodes = (
+  codes?: string[],
+): Promise<IA2aRemoteAgent[]> => {
+  if (!codes?.length) return Promise.resolve([]);
+  return listA2aAgentsByCodes({
+    agent_codes: codes,
+  }).then((res) => {
+    return res.data.filter((item) => !!item) || [];
+  });
+};
+
 export const querySkillsByIds = (ids?: string[]): Promise<ISkill[]> => {
   if (!ids?.length) return Promise.resolve([]);
   return listSkillsByIds(ids).then((res) => {
@@ -93,6 +106,7 @@ export const transformAppData = (
   const {
     tools,
     mcp_servers,
+    a2a_agents,
     skills,
     file_search,
     agent_components,
@@ -104,6 +118,7 @@ export const transformAppData = (
     model: extraConfig.model?.model_id,
     tools: tools?.map((item) => ({ id: item.tool_id })) || [],
     mcp_servers: mcp_servers?.map((item) => ({ id: item.server_code })) || [],
+    a2a_agents: a2a_agents?.map((item) => ({ id: item.agent_code })) || [],
     skills: skills?.map((item) => ({ id: item.skill_id })) || [],
     agent_components: agent_components?.map((item) => item.code) || [],
     workflow_components: workflow_components?.map((item) => item.code) || [],
@@ -198,6 +213,9 @@ export default function AssistantAppEdit() {
     const mcp_servers = await queryMCPsByCodes(
       appDetail.config.mcp_servers?.map((item) => item.id) || [],
     );
+    const a2a_agents = await queryA2aAgentsByCodes(
+      appDetail.config.a2a_agents?.map((item) => item.id) || [],
+    );
     const skills = await querySkillsByIds(
       appDetail.config.skills?.map((item) => item.id) || [],
     );
@@ -216,6 +234,7 @@ export default function AssistantAppEdit() {
         ...appDetail.config,
         tools,
         mcp_servers,
+        a2a_agents,
         skills,
         agent_components,
         workflow_components,
@@ -405,6 +424,15 @@ export default function AssistantAppEdit() {
       config.mcp_servers.forEach((server) => {
         if (server.server_code) {
           tools.push(`mcp:${server.server_code}`);
+        }
+      });
+    }
+
+    // 添加 A2A Agent
+    if (config.a2a_agents && config.a2a_agents.length > 0) {
+      config.a2a_agents.forEach((agent) => {
+        if (agent.agent_code) {
+          tools.push(`a2a:${agent.agent_code}`);
         }
       });
     }

@@ -1,0 +1,1490 @@
+{
+  "exported_at": "2026-07-28T06:55:35Z",
+  "source": "docker saa-mysql / admin (host port 13316 → saa-admin)",
+  "note": "provider.credential / account.password / model_config.api_key redacted",
+  "counts": {
+    "a2a_agent_publication": 2,
+    "a2a_remote_agent": 1,
+    "account": 1,
+    "application": 3,
+    "application_component": 3,
+    "application_version": 9,
+    "knowledge_base": 1,
+    "mcp_server": 1,
+    "model": 27,
+    "model_config": 0,
+    "prompt": 0,
+    "provider": 2,
+    "skill": 5,
+    "workspace": 1
+  },
+  "data": {
+    "a2a_agent_publication": [
+      {
+        "app_id": "2081674179070840834",
+        "status": 3,
+        "enabled": 0,
+        "app_type": "basic",
+        "card_json": {
+          "url": "http://172.30.10.28:9080/a2a/2081674179070840834",
+          "name": "景区流量查询Agent",
+          "skills": [
+            {
+              "id": "chat",
+              "name": "chat",
+              "tags": [
+                "chat"
+              ],
+              "examples": [],
+              "description": "Chat with the published Studio application"
+            }
+          ],
+          "version": "1.0.0",
+          "description": "",
+          "capabilities": {
+            "streaming": false,
+            "pushNotifications": false,
+            "stateTransitionHistory": false
+          },
+          "protocolVersion": "0.3.0",
+          "defaultInputModes": [
+            "text/plain"
+          ],
+          "defaultOutputModes": [
+            "text/plain"
+          ],
+          "preferredTransport": "JSONRPC",
+          "additionalInterfaces": [
+            {
+              "url": "http://172.30.10.28:9080/a2a/2081674179070840834",
+              "transport": "JSONRPC"
+            }
+          ]
+        },
+        "agent_name": "景区流量查询Agent",
+        "description": null,
+        "workspace_id": "1",
+        "nacos_registered": 0,
+        "publication_code": "2081713837444472834"
+      },
+      {
+        "app_id": "2081674179070840834",
+        "status": 1,
+        "enabled": 1,
+        "app_type": "basic",
+        "card_json": {
+          "url": "http://172.30.10.28:9080/a2a/2081674179070840834",
+          "name": "景区流量查询Agent",
+          "skills": [
+            {
+              "id": "chat",
+              "name": "chat",
+              "tags": [
+                "chat"
+              ],
+              "examples": [],
+              "description": "Chat with the published Studio application"
+            }
+          ],
+          "version": "1.0.0",
+          "description": "用于查询景区客流量的Agent",
+          "capabilities": {
+            "streaming": false,
+            "pushNotifications": false,
+            "stateTransitionHistory": false
+          },
+          "protocolVersion": "0.3.0",
+          "defaultInputModes": [
+            "text/plain"
+          ],
+          "defaultOutputModes": [
+            "text/plain"
+          ],
+          "preferredTransport": "JSONRPC",
+          "additionalInterfaces": [
+            {
+              "url": "http://172.30.10.28:9080/a2a/2081674179070840834",
+              "transport": "JSONRPC"
+            }
+          ]
+        },
+        "agent_name": "景区流量查询Agent",
+        "description": "用于查询景区客流量的Agent",
+        "workspace_id": "1",
+        "nacos_registered": 0,
+        "publication_code": "2081713940636934145"
+      }
+    ],
+    "a2a_remote_agent": [
+      {
+        "name": "景区流量查询Agent",
+        "status": 1,
+        "card_url": "http://172.30.10.28:9080/.well-known/agents/2081674179070840834/agent.json",
+        "card_json": {
+          "url": "http://172.30.10.28:9080/a2a/2081674179070840834",
+          "name": "景区流量查询Agent",
+          "skills": [
+            {
+              "id": "chat",
+              "name": "chat",
+              "tags": [
+                "chat"
+              ],
+              "examples": [],
+              "description": "Chat with the published Studio application"
+            }
+          ],
+          "version": "1.0.0",
+          "description": "用于查询景区客流量的Agent",
+          "capabilities": {
+            "streaming": false,
+            "pushNotifications": false,
+            "stateTransitionHistory": false
+          },
+          "protocolVersion": "0.3.0",
+          "defaultInputModes": [
+            "text/plain"
+          ],
+          "defaultOutputModes": [
+            "text/plain"
+          ],
+          "preferredTransport": "JSONRPC",
+          "additionalInterfaces": [
+            {
+              "url": "http://172.30.10.28:9080/a2a/2081674179070840834",
+              "transport": "JSONRPC"
+            }
+          ]
+        },
+        "agent_code": "local_a2a_2081674179070840834",
+        "description": "用于查询景区客流量的Agent",
+        "source_type": "URL",
+        "workspace_id": "1",
+        "nacos_agent_name": null
+      }
+    ],
+    "account": [
+      {
+        "type": "admin",
+        "email": "ken.lj.hz@gmail.com",
+        "status": 1,
+        "nickname": null,
+        "password": "***REDACTED***",
+        "username": "saa",
+        "account_id": "10000",
+        "gmt_create": "2026-07-24 19:01:42"
+      }
+    ],
+    "application": [
+      {
+        "icon": null,
+        "name": "SeeTime",
+        "type": "basic",
+        "app_id": "2081577084405129218",
+        "source": "console",
+        "status": 3,
+        "creator": "10000",
+        "gmt_create": "2026-07-27 11:07:05",
+        "description": null,
+        "gmt_modified": "2026-07-28 11:24:32",
+        "workspace_id": "1"
+      },
+      {
+        "icon": null,
+        "name": "报告生成WorkFlow流程编排",
+        "type": "workflow",
+        "app_id": "2081587430652305409",
+        "source": "console",
+        "status": 3,
+        "creator": "10000",
+        "gmt_create": "2026-07-27 11:48:12",
+        "description": null,
+        "gmt_modified": "2026-07-27 17:34:35",
+        "workspace_id": "1"
+      },
+      {
+        "icon": null,
+        "name": "景区流量查询Agent",
+        "type": "basic",
+        "app_id": "2081674179070840834",
+        "source": "console",
+        "status": 2,
+        "creator": "10000",
+        "gmt_create": "2026-07-27 17:32:55",
+        "description": null,
+        "gmt_modified": "2026-07-27 17:33:13",
+        "workspace_id": "1"
+      }
+    ],
+    "application_component": [
+      {
+        "code": "2081587257435938818",
+        "name": "交通事故查询Agent",
+        "type": "basic",
+        "app_id": "2081577084405129218",
+        "config": {
+          "input": {
+            "user_params": [],
+            "system_params": [
+              {
+                "type": "String",
+                "alias": "query",
+                "field": "query",
+                "source": "model",
+                "display": true,
+                "required": true
+              }
+            ]
+          },
+          "output": [
+            {
+              "type": "String",
+              "field": "output",
+              "source": "model",
+              "display": true,
+              "required": false
+            }
+          ]
+        },
+        "status": 1,
+        "description": "测试智能体组件",
+        "need_update": 0,
+        "workspace_id": "1"
+      },
+      {
+        "code": "2081588828106317825",
+        "name": "测试工作流",
+        "type": "workflow",
+        "app_id": "2081587430652305409",
+        "config": {
+          "input": {
+            "user_params": [
+              {
+                "code": "2081587430652305409",
+                "name": "流程编排_7VP1",
+                "params": [
+                  {
+                    "type": "String",
+                    "alias": "city",
+                    "field": "city",
+                    "source": "model",
+                    "display": true,
+                    "required": false,
+                    "description": "城市"
+                  },
+                  {
+                    "type": "String",
+                    "alias": "date",
+                    "field": "date",
+                    "source": "model",
+                    "display": true,
+                    "required": false,
+                    "description": "日期"
+                  }
+                ]
+              }
+            ],
+            "system_params": [
+              {
+                "type": "String",
+                "alias": "query",
+                "field": "query",
+                "source": "model",
+                "display": true,
+                "required": true
+              }
+            ]
+          },
+          "output": [
+            {
+              "type": "String",
+              "field": "output",
+              "source": "model",
+              "display": true,
+              "required": false
+            }
+          ]
+        },
+        "status": 1,
+        "description": "测试工作流",
+        "need_update": 0,
+        "workspace_id": "1"
+      },
+      {
+        "code": "2081674308402204674",
+        "name": "景区流量Agent",
+        "type": "basic",
+        "app_id": "2081674179070840834",
+        "config": {
+          "input": {
+            "user_params": [],
+            "system_params": [
+              {
+                "type": "String",
+                "alias": "query",
+                "field": "query",
+                "source": "model",
+                "display": true,
+                "required": true
+              }
+            ]
+          },
+          "output": [
+            {
+              "type": "String",
+              "field": "output",
+              "source": "model",
+              "display": true,
+              "required": false
+            }
+          ]
+        },
+        "status": 1,
+        "description": "景区流量Agent",
+        "need_update": 0,
+        "workspace_id": "1"
+      }
+    ],
+    "application_version": [
+      {
+        "app_id": "2081577084405129218",
+        "config": {
+          "model": "DeepSeek-V4-Flash",
+          "tools": [],
+          "parameter": {},
+          "file_search": {
+            "top_k": 3,
+            "kb_ids": [
+              "2081577502875033602"
+            ],
+            "search_type": "hybrid",
+            "enable_rerank": false,
+            "enable_search": true,
+            "similarity_threshold": 0.2
+          },
+          "mcp_servers": [],
+          "instructions": "你是一个世界空间搜索助手，可以准确回答用户的提问。\\n# 知识库\\n请记住以下材料，他们可能对回答问题有帮助。\\n${documents}",
+          "modality_type": "textDialog",
+          "model_provider": "24b0e20c",
+          "agent_components": [],
+          "workflow_components": []
+        },
+        "status": 2,
+        "creator": "10000",
+        "version": "1",
+        "gmt_create": "2026-07-27 11:07:05",
+        "description": null,
+        "gmt_modified": "2026-07-27 11:20:26",
+        "workspace_id": "1"
+      },
+      {
+        "app_id": "2081577084405129218",
+        "config": {
+          "model": "DeepSeek-V4-Flash",
+          "tools": [],
+          "parameter": {},
+          "file_search": {
+            "top_k": 3,
+            "kb_ids": [
+              "2081577502875033602"
+            ],
+            "search_type": "hybrid",
+            "enable_rerank": false,
+            "enable_search": true,
+            "similarity_threshold": 0.2
+          },
+          "mcp_servers": [],
+          "instructions": "你是一个世界空间搜索助手，可以准确回答用户的提问。\\n# 知识库\\n请记住以下材料，他们可能对回答问题有帮助。\\n${documents}",
+          "modality_type": "textDialog",
+          "model_provider": "24b0e20c",
+          "agent_components": [
+            "2081587257435938818"
+          ],
+          "workflow_components": [
+            "2081588828106317825"
+          ]
+        },
+        "status": 2,
+        "creator": "10000",
+        "version": "2",
+        "gmt_create": "2026-07-27 11:47:41",
+        "description": null,
+        "gmt_modified": "2026-07-27 11:53:58",
+        "workspace_id": "1"
+      },
+      {
+        "app_id": "2081587430652305409",
+        "config": {
+          "edges": [
+            {
+              "id": "Start_8Fsg-Start_8Fsg-LLM_5DuT-LLM_5DuT",
+              "source": "Start_8Fsg",
+              "target": "LLM_5DuT",
+              "source_handle": "Start_8Fsg",
+              "target_handle": "LLM_5DuT"
+            },
+            {
+              "id": "LLM_5DuT-LLM_5DuT-End_tSLe-End_tSLe",
+              "source": "LLM_5DuT",
+              "target": "End_tSLe",
+              "source_handle": "LLM_5DuT",
+              "target_handle": "End_tSLe"
+            }
+          ],
+          "nodes": [
+            {
+              "id": "Start_8Fsg",
+              "name": "开始",
+              "type": "Start",
+              "width": 320,
+              "config": {
+                "node_param": {},
+                "input_params": [],
+                "output_params": [
+                  {
+                    "key": "city",
+                    "desc": "城市",
+                    "type": "String"
+                  },
+                  {
+                    "key": "date",
+                    "desc": "日期",
+                    "type": "String"
+                  }
+                ]
+              },
+              "position": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            {
+              "id": "End_tSLe",
+              "name": "结束",
+              "type": "End",
+              "width": 320,
+              "config": {
+                "node_param": {
+                  "json_params": [],
+                  "output_type": "text",
+                  "stream_switch": true,
+                  "text_template": "${LLM_5DuT.reasoning_content}\\n${LLM_5DuT.output}"
+                },
+                "input_params": [],
+                "output_params": []
+              },
+              "position": {
+                "x": 742,
+                "y": 154.66666666666666
+              }
+            },
+            {
+              "id": "LLM_5DuT",
+              "name": "大模型1",
+              "type": "LLM",
+              "width": 320,
+              "config": {
+                "node_param": {
+                  "model_config": {
+                    "mode": "chat",
+                    "params": [],
+                    "model_id": "DeepSeek-V4-Flash",
+                    "provider": "24b0e20c",
+                    "model_name": "",
+                    "vision_config": {
+                      "enable": false,
+                      "params": [
+                        {
+                          "key": "imageContent",
+                          "type": "File",
+                          "value_from": "refer"
+                        }
+                      ]
+                    }
+                  },
+                  "retry_config": {
+                    "max_retries": 3,
+                    "retry_enabled": false,
+                    "retry_interval": 500
+                  },
+                  "short_memory": {
+                    "type": "self",
+                    "param": {
+                      "key": "historyList",
+                      "type": "Array<String>",
+                      "value_from": "refer"
+                    },
+                    "round": 3,
+                    "enabled": true
+                  },
+                  "prompt_content": "${Start_8Fsg.city}${Start_8Fsg.date}${sys.history_list}${sys.query}",
+                  "try_catch_config": {
+                    "strategy": "noop",
+                    "default_values": [
+                      {
+                        "key": "output",
+                        "desc": "文本输出",
+                        "type": "String"
+                      }
+                    ]
+                  },
+                  "sys_prompt_content": "对用户的提问深度解析后改写成合理的提问。"
+                },
+                "input_params": [],
+                "output_params": [
+                  {
+                    "key": "output",
+                    "desc": "文本输出",
+                    "type": "String"
+                  },
+                  {
+                    "key": "reasoning_content",
+                    "desc": "深度思考内容",
+                    "type": "String"
+                  }
+                ]
+              },
+              "position": {
+                "x": 420,
+                "y": 0
+              }
+            }
+          ],
+          "global_config": {
+            "history_config": {
+              "history_switch": false,
+              "history_max_round": 5
+            },
+            "variable_config": {
+              "conversation_params": []
+            }
+          }
+        },
+        "status": 2,
+        "creator": "10000",
+        "version": "1",
+        "gmt_create": "2026-07-27 11:48:12",
+        "description": null,
+        "gmt_modified": "2026-07-27 11:52:52",
+        "workspace_id": "1"
+      },
+      {
+        "app_id": "2081587430652305409",
+        "config": {
+          "edges": [
+            {
+              "id": "LLM_5DuT-LLM_5DuT-End_tSLe-End_tSLe",
+              "source": "LLM_5DuT",
+              "target": "End_tSLe",
+              "source_handle": "LLM_5DuT",
+              "target_handle": "End_tSLe"
+            },
+            {
+              "id": "Start_8Fsg-Start_8Fsg-Classifier_V6nT-Classifier_V6nT",
+              "source": "Start_8Fsg",
+              "target": "Classifier_V6nT",
+              "source_handle": "Start_8Fsg",
+              "target_handle": "Classifier_V6nT"
+            },
+            {
+              "id": "Classifier_V6nT-Classifier_V6nT_default-LLM_5DuT-LLM_5DuT",
+              "source": "Classifier_V6nT",
+              "target": "LLM_5DuT",
+              "source_handle": "Classifier_V6nT_default",
+              "target_handle": "LLM_5DuT"
+            },
+            {
+              "id": "Classifier_V6nT-Classifier_V6nT_gEgY-AppComponent_QkAe-AppComponent_QkAe",
+              "source": "Classifier_V6nT",
+              "target": "AppComponent_QkAe",
+              "source_handle": "Classifier_V6nT_gEgY",
+              "target_handle": "AppComponent_QkAe"
+            }
+          ],
+          "nodes": [
+            {
+              "id": "Start_8Fsg",
+              "name": "开始",
+              "type": "Start",
+              "width": 320,
+              "config": {
+                "node_param": {},
+                "input_params": [],
+                "output_params": [
+                  {
+                    "key": "city",
+                    "desc": "城市",
+                    "type": "String"
+                  },
+                  {
+                    "key": "date",
+                    "desc": "日期",
+                    "type": "String"
+                  }
+                ]
+              },
+              "position": {
+                "x": -108.11704026004467,
+                "y": 36.60388823851043
+              }
+            },
+            {
+              "id": "End_tSLe",
+              "name": "结束",
+              "type": "End",
+              "width": 320,
+              "config": {
+                "node_param": {
+                  "json_params": [],
+                  "output_type": "text",
+                  "stream_switch": true,
+                  "text_template": "${LLM_5DuT.reasoning_content}\\n${LLM_5DuT.output}"
+                },
+                "input_params": [],
+                "output_params": []
+              },
+              "position": {
+                "x": 753.3564644703872,
+                "y": 265.78929848447535
+              }
+            },
+            {
+              "id": "LLM_5DuT",
+              "name": "Hermes Agent",
+              "type": "LLM",
+              "width": 320,
+              "config": {
+                "node_param": {
+                  "model_config": {
+                    "mode": "chat",
+                    "params": [],
+                    "model_id": "DeepSeek-V4-Flash",
+                    "provider": "24b0e20c",
+                    "model_name": "",
+                    "vision_config": {
+                      "enable": false,
+                      "params": [
+                        {
+                          "key": "imageContent",
+                          "type": "File",
+                          "value_from": "refer"
+                        }
+                      ]
+                    }
+                  },
+                  "retry_config": {
+                    "max_retries": 3,
+                    "retry_enabled": false,
+                    "retry_interval": 500
+                  },
+                  "short_memory": {
+                    "type": "self",
+                    "param": {
+                      "key": "historyList",
+                      "type": "Array<String>",
+                      "value_from": "refer"
+                    },
+                    "round": 3,
+                    "enabled": true
+                  },
+                  "prompt_content": "${Start_8Fsg.city}${Start_8Fsg.date}${sys.history_list}${sys.query}",
+                  "try_catch_config": {
+                    "strategy": "noop",
+                    "default_values": [
+                      {
+                        "key": "output",
+                        "desc": "文本输出",
+                        "type": "String"
+                      }
+                    ]
+                  },
+                  "sys_prompt_content": "对用户的提问深度解析后改写成合理的提问。"
+                },
+                "input_params": [],
+                "output_params": [
+                  {
+                    "key": "output",
+                    "desc": "文本输出",
+                    "type": "String"
+                  },
+                  {
+                    "key": "reasoning_content",
+                    "desc": "深度思考内容",
+                    "type": "String"
+                  }
+                ]
+              },
+              "position": {
+                "x": 748.9480222343727,
+                "y": 153.95094727287656
+              }
+            },
+            {
+              "id": "Classifier_V6nT",
+              "name": "意图分类1",
+              "type": "Classifier",
+              "width": 320,
+              "config": {
+                "node_param": {
+                  "conditions": [
+                    {
+                      "id": "default",
+                      "subject": ""
+                    },
+                    {
+                      "id": "gEgY",
+                      "subject": "简单Agent"
+                    }
+                  ],
+                  "instruction": "",
+                  "mode_switch": "efficient",
+                  "model_config": {
+                    "mode": "chat",
+                    "params": [],
+                    "model_id": "DeepSeek-V4-Flash",
+                    "provider": "24b0e20c",
+                    "model_name": "",
+                    "vision_config": {
+                      "enable": false,
+                      "params": [
+                        {
+                          "key": "imageContent",
+                          "type": "File",
+                          "value_from": "refer"
+                        }
+                      ]
+                    }
+                  },
+                  "short_memory": {
+                    "type": "self",
+                    "param": {
+                      "key": "historyList",
+                      "type": "Array<String>",
+                      "value_from": "refer"
+                    },
+                    "round": 3,
+                    "enabled": false
+                  }
+                },
+                "input_params": [
+                  {
+                    "key": "input",
+                    "type": "String",
+                    "value": "${sys.query}",
+                    "value_from": "refer"
+                  }
+                ],
+                "output_params": [
+                  {
+                    "key": "subject",
+                    "desc": "命中主题",
+                    "type": "String"
+                  },
+                  {
+                    "key": "thought",
+                    "desc": "思考过程",
+                    "type": "String"
+                  }
+                ]
+              },
+              "position": {
+                "x": 398.12123659130094,
+                "y": -85.33333333333333
+              }
+            },
+            {
+              "id": "AppComponent_QkAe",
+              "name": "应用组件1",
+              "type": "AppComponent",
+              "width": 320,
+              "config": {
+                "node_param": {
+                  "code": "2081587257435938818",
+                  "name": "测试智能体组件",
+                  "type": "basic",
+                  "output_type": "text",
+                  "short_memory": {
+                    "type": "self",
+                    "param": {
+                      "key": "historyList",
+                      "type": "Array<String>",
+                      "value_from": "refer"
+                    },
+                    "round": 3,
+                    "enabled": false
+                  },
+                  "stream_switch": false
+                },
+                "input_params": [
+                  {
+                    "key": "query",
+                    "type": "String",
+                    "value_from": "refer"
+                  }
+                ],
+                "output_params": [
+                  {
+                    "key": "output",
+                    "type": "String"
+                  }
+                ]
+              },
+              "position": {
+                "x": 808.7879032579675,
+                "y": -245.33333333333331
+              }
+            }
+          ],
+          "global_config": {
+            "history_config": {
+              "history_switch": false,
+              "history_max_round": 5
+            },
+            "variable_config": {
+              "conversation_params": []
+            }
+          }
+        },
+        "status": 1,
+        "creator": "10000",
+        "version": "2",
+        "gmt_create": "2026-07-27 11:52:58",
+        "description": null,
+        "gmt_modified": "2026-07-27 17:34:35",
+        "workspace_id": "1"
+      },
+      {
+        "app_id": "2081577084405129218",
+        "config": {
+          "model": "DeepSeek-V4-Flash",
+          "tools": [],
+          "skills": [
+            {
+              "id": "2081630816158019585"
+            }
+          ],
+          "parameter": {},
+          "file_search": {
+            "top_k": 3,
+            "kb_ids": [
+              "2081577502875033602"
+            ],
+            "search_type": "hybrid",
+            "enable_rerank": false,
+            "enable_search": true,
+            "similarity_threshold": 0.2
+          },
+          "mcp_servers": [],
+          "instructions": "你是一个世界空间搜索助手，可以准确回答用户的提问。\\n# 知识库\\n请记住以下材料，他们可能对回答问题有帮助。\\n${documents}",
+          "modality_type": "textDialog",
+          "model_provider": "24b0e20c",
+          "agent_components": [
+            "2081587257435938818"
+          ],
+          "workflow_components": [
+            "2081588828106317825"
+          ]
+        },
+        "status": 2,
+        "creator": "10000",
+        "version": "3",
+        "gmt_create": "2026-07-27 14:23:28",
+        "description": null,
+        "gmt_modified": "2026-07-27 16:46:46",
+        "workspace_id": "1"
+      },
+      {
+        "app_id": "2081577084405129218",
+        "config": {
+          "model": "DeepSeek-V4-Flash",
+          "tools": [],
+          "skills": [
+            {
+              "id": "2081630816158019585"
+            }
+          ],
+          "parameter": {},
+          "file_search": {
+            "top_k": 3,
+            "kb_ids": [
+              "2081577502875033602"
+            ],
+            "search_type": "hybrid",
+            "enable_rerank": false,
+            "enable_search": true,
+            "similarity_threshold": 0.2
+          },
+          "mcp_servers": [],
+          "instructions": "你是一个世界空间搜索助手，可以准确回答用户的提问。\\n# 知识库\\n请记住以下材料，他们可能对回答问题有帮助。\\n${documents}",
+          "modality_type": "textDialog",
+          "model_provider": "24b0e20c",
+          "agent_components": [
+            "2081587257435938818"
+          ],
+          "workflow_components": [
+            "2081588828106317825"
+          ]
+        },
+        "status": 2,
+        "creator": "10000",
+        "version": "4",
+        "gmt_create": "2026-07-27 17:32:13",
+        "description": null,
+        "gmt_modified": "2026-07-27 17:32:16",
+        "workspace_id": "1"
+      },
+      {
+        "app_id": "2081674179070840834",
+        "config": {
+          "model": "DeepSeek-V4-Flash",
+          "tools": [],
+          "skills": [],
+          "parameter": {},
+          "file_search": {
+            "kb_ids": []
+          },
+          "mcp_servers": [],
+          "instructions": "",
+          "modality_type": "textDialog",
+          "model_provider": "24b0e20c",
+          "agent_components": [],
+          "workflow_components": []
+        },
+        "status": 2,
+        "creator": "10000",
+        "version": "1",
+        "gmt_create": "2026-07-27 17:32:55",
+        "description": null,
+        "gmt_modified": "2026-07-27 17:33:13",
+        "workspace_id": "1"
+      },
+      {
+        "app_id": "2081577084405129218",
+        "config": {
+          "model": "DeepSeek-V4-Flash",
+          "tools": [],
+          "skills": [
+            {
+              "id": "2081630816158019585"
+            }
+          ],
+          "parameter": {},
+          "file_search": {
+            "top_k": 3,
+            "kb_ids": [
+              "2081577502875033602"
+            ],
+            "search_type": "hybrid",
+            "enable_rerank": false,
+            "enable_search": true,
+            "similarity_threshold": 0.2
+          },
+          "mcp_servers": [],
+          "instructions": "你是一个世界空间搜索助手，可以准确回答用户的提问。\\n# 知识库\\n请记住以下材料，他们可能对回答问题有帮助。\\n${documents}",
+          "modality_type": "textDialog",
+          "model_provider": "24b0e20c",
+          "agent_components": [
+            "2081587257435938818",
+            "2081674308402204674"
+          ],
+          "workflow_components": [
+            "2081588828106317825"
+          ]
+        },
+        "status": 2,
+        "creator": "10000",
+        "version": "5",
+        "gmt_create": "2026-07-27 17:33:46",
+        "description": null,
+        "gmt_modified": "2026-07-27 17:40:12",
+        "workspace_id": "1"
+      },
+      {
+        "app_id": "2081577084405129218",
+        "config": {
+          "model": "DeepSeek-V4-Flash",
+          "tools": [],
+          "skills": [
+            {
+              "id": "2081630816158019585"
+            }
+          ],
+          "parameter": {},
+          "a2a_agents": [],
+          "file_search": {
+            "top_k": 3,
+            "kb_ids": [
+              "2081577502875033602"
+            ],
+            "search_type": "hybrid",
+            "enable_rerank": false,
+            "enable_search": true,
+            "similarity_threshold": 0.2
+          },
+          "mcp_servers": [],
+          "instructions": "你是一个世界空间搜索助手，可以准确回答用户的提问。\\n# 知识库\\n请记住以下材料，他们可能对回答问题有帮助。\\n${documents}",
+          "modality_type": "textDialog",
+          "model_provider": "24b0e20c",
+          "agent_components": [
+            "2081587257435938818",
+            "2081674308402204674"
+          ],
+          "workflow_components": [
+            "2081588828106317825"
+          ]
+        },
+        "status": 1,
+        "creator": "10000",
+        "version": "6",
+        "gmt_create": "2026-07-28 11:24:31",
+        "description": null,
+        "gmt_modified": "2026-07-28 11:24:32",
+        "workspace_id": "1"
+      }
+    ],
+    "knowledge_base": [
+      {
+        "name": "交通法律法规",
+        "type": "unstructured",
+        "kb_id": "2081577502875033602",
+        "status": 1,
+        "total_docs": 0,
+        "description": "",
+        "index_config": {
+          "name": "2081577502875033602",
+          "embedding_model": "Qwen/Qwen3-VL-Embedding-8B",
+          "embedding_provider": "24b0e20c"
+        },
+        "workspace_id": "1",
+        "search_config": {
+          "top_k": 3,
+          "search_type": "hybrid",
+          "rerank_model": "Qwen/Qwen3-VL-Reranker-8B",
+          "enable_rerank": false,
+          "enable_search": false,
+          "rerank_provider": "24b0e20c",
+          "similarity_threshold": 0.2
+        },
+        "process_config": {
+          "regex": "\\\\n\\\\n",
+          "chunk_size": 600,
+          "chunk_type": "length",
+          "chunk_overlap": 100
+        }
+      }
+    ],
+    "mcp_server": [
+      {
+        "server_code": "2081994243039166466",
+        "name": "高德地图MCP",
+        "description": "高德地图MCP",
+        "type": "CUSTOMER",
+        "host": "https://mcp.api-inference.modelscope.net",
+        "install_type": "SSE",
+        "deploy_env": "",
+        "status": 1,
+        "workspace_id": "1",
+        "source": "",
+        "biz_type": "",
+        "deploy_config": "{\"remote_endpoint\":\"/0ac1ee70f34c4f/sse\",\"install_config\":\"{\\\\\"mcpServers\\\\\":{\\\\\"amap-maps\\\\\":{\\\\\"type\\\\\":\\\\\"sse\\\\\",\\\\\"url\\\\\":\\\\\"https://mcp.api-inference.modelscope.net/0ac1ee70f34c4f/sse\\\\\"}}}\",\"remote_address\":\"https://mcp.api-inference.modelscope.net\"}",
+        "detail_config": {}
+      }
+    ],
+    "model": [
+      {
+        "mode": "chat",
+        "name": "qwen-max",
+        "tags": "web_search,function_call",
+        "type": "llm",
+        "enable": 0,
+        "source": "preset",
+        "model_id": "qwen-max",
+        "provider": "Tongyi",
+        "workspace_id": "1"
+      },
+      {
+        "mode": "chat",
+        "name": "qwen-max-latest",
+        "tags": "web_search,function_call,reasoning",
+        "type": "llm",
+        "enable": 0,
+        "source": "preset",
+        "model_id": "qwen-max-latest",
+        "provider": "Tongyi",
+        "workspace_id": "1"
+      },
+      {
+        "mode": "chat",
+        "name": "qwen-plus",
+        "tags": "web_search,function_call",
+        "type": "llm",
+        "enable": 0,
+        "source": "preset",
+        "model_id": "qwen-plus",
+        "provider": "Tongyi",
+        "workspace_id": "1"
+      },
+      {
+        "mode": "chat",
+        "name": "qwen-plus-latest",
+        "tags": "web_search,function_call,reasoning",
+        "type": "llm",
+        "enable": 0,
+        "source": "preset",
+        "model_id": "qwen-plus-latest",
+        "provider": "Tongyi",
+        "workspace_id": "1"
+      },
+      {
+        "mode": "chat",
+        "name": "qwen-turbo",
+        "tags": "web_search,function_call",
+        "type": "llm",
+        "enable": 0,
+        "source": "preset",
+        "model_id": "qwen-turbo",
+        "provider": "Tongyi",
+        "workspace_id": "1"
+      },
+      {
+        "mode": "chat",
+        "name": "qwen-turbo-latest",
+        "tags": "web_search,function_call,reasoning",
+        "type": "llm",
+        "enable": 0,
+        "source": "preset",
+        "model_id": "qwen-turbo-latest",
+        "provider": "Tongyi",
+        "workspace_id": "1"
+      },
+      {
+        "mode": "chat",
+        "name": "qwen3-235b-a22b",
+        "tags": "function_call,reasoning",
+        "type": "llm",
+        "enable": 0,
+        "source": "preset",
+        "model_id": "qwen3-235b-a22b",
+        "provider": "Tongyi",
+        "workspace_id": "1"
+      },
+      {
+        "mode": "chat",
+        "name": "qwen3-30b-a3b",
+        "tags": "function_call,reasoning",
+        "type": "llm",
+        "enable": 0,
+        "source": "preset",
+        "model_id": "qwen3-30b-a3b",
+        "provider": "Tongyi",
+        "workspace_id": "1"
+      },
+      {
+        "mode": "chat",
+        "name": "qwen3-32b",
+        "tags": "function_call,reasoning",
+        "type": "llm",
+        "enable": 0,
+        "source": "preset",
+        "model_id": "qwen3-32b",
+        "provider": "Tongyi",
+        "workspace_id": "1"
+      },
+      {
+        "mode": "chat",
+        "name": "qwen3-14b",
+        "tags": "function_call,reasoning",
+        "type": "llm",
+        "enable": 0,
+        "source": "preset",
+        "model_id": "qwen3-14b",
+        "provider": "Tongyi",
+        "workspace_id": "1"
+      },
+      {
+        "mode": "chat",
+        "name": "qwen3-8b",
+        "tags": "function_call,reasoning",
+        "type": "llm",
+        "enable": 0,
+        "source": "preset",
+        "model_id": "qwen3-8b",
+        "provider": "Tongyi",
+        "workspace_id": "1"
+      },
+      {
+        "mode": "chat",
+        "name": "qwen3-4b",
+        "tags": "function_call,reasoning",
+        "type": "llm",
+        "enable": 0,
+        "source": "preset",
+        "model_id": "qwen3-4b",
+        "provider": "Tongyi",
+        "workspace_id": "1"
+      },
+      {
+        "mode": "chat",
+        "name": "qwen3-1.7b",
+        "tags": "function_call,reasoning",
+        "type": "llm",
+        "enable": 0,
+        "source": "preset",
+        "model_id": "qwen3-1.7b",
+        "provider": "Tongyi",
+        "workspace_id": "1"
+      },
+      {
+        "mode": "chat",
+        "name": "qwen3-0.6b",
+        "tags": "function_call,reasoning",
+        "type": "llm",
+        "enable": 0,
+        "source": "preset",
+        "model_id": "qwen3-0.6b",
+        "provider": "Tongyi",
+        "workspace_id": "1"
+      },
+      {
+        "mode": "chat",
+        "name": "qwen-vl-max",
+        "tags": "vision,function_call",
+        "type": "llm",
+        "enable": 0,
+        "source": "preset",
+        "model_id": "qwen-vl-max",
+        "provider": "Tongyi",
+        "workspace_id": "1"
+      },
+      {
+        "mode": "chat",
+        "name": "qwen-vl-plus",
+        "tags": "vision,function_call",
+        "type": "llm",
+        "enable": 0,
+        "source": "preset",
+        "model_id": "qwen-vl-plus",
+        "provider": "Tongyi",
+        "workspace_id": "1"
+      },
+      {
+        "mode": "chat",
+        "name": "qvq-max",
+        "tags": "vision,reasoning",
+        "type": "llm",
+        "enable": 0,
+        "source": "preset",
+        "model_id": "qvq-max",
+        "provider": "Tongyi",
+        "workspace_id": "1"
+      },
+      {
+        "mode": "chat",
+        "name": "qwq-plus",
+        "tags": "reasoning,function_call",
+        "type": "llm",
+        "enable": 0,
+        "source": "preset",
+        "model_id": "qwq-plus",
+        "provider": "Tongyi",
+        "workspace_id": "1"
+      },
+      {
+        "mode": "chat",
+        "name": "text-embedding-v1",
+        "tags": "embedding",
+        "type": "text_embedding",
+        "enable": 0,
+        "source": "preset",
+        "model_id": "text-embedding-v1",
+        "provider": "Tongyi",
+        "workspace_id": "1"
+      },
+      {
+        "mode": "chat",
+        "name": "text-embedding-v2",
+        "tags": "embedding",
+        "type": "text_embedding",
+        "enable": 0,
+        "source": "preset",
+        "model_id": "text-embedding-v2",
+        "provider": "Tongyi",
+        "workspace_id": "1"
+      },
+      {
+        "mode": "chat",
+        "name": "text-embedding-v3",
+        "tags": "embedding",
+        "type": "text_embedding",
+        "enable": 0,
+        "source": "preset",
+        "model_id": "text-embedding-v3",
+        "provider": "Tongyi",
+        "workspace_id": "1"
+      },
+      {
+        "mode": "chat",
+        "name": "gte-rerank-v2",
+        "tags": null,
+        "type": "rerank",
+        "enable": 0,
+        "source": "preset",
+        "model_id": "gte-rerank-v2",
+        "provider": "Tongyi",
+        "workspace_id": "1"
+      },
+      {
+        "mode": "chat",
+        "name": "deepseek-r1",
+        "tags": "reasoning",
+        "type": "llm",
+        "enable": 0,
+        "source": "preset",
+        "model_id": "deepseek-r1",
+        "provider": "Tongyi",
+        "workspace_id": "1"
+      },
+      {
+        "mode": "chat",
+        "name": "DeepSeek-V4-Flash",
+        "tags": "function_call,web_search,reasoning",
+        "type": "llm",
+        "enable": 1,
+        "source": "custom",
+        "model_id": "DeepSeek-V4-Flash",
+        "provider": "24b0e20c",
+        "workspace_id": "1"
+      },
+      {
+        "mode": "chat",
+        "name": "MiniMax-M2.7",
+        "tags": "function_call,reasoning,web_search",
+        "type": "llm",
+        "enable": 1,
+        "source": "custom",
+        "model_id": "MiniMax-M2.7",
+        "provider": "24b0e20c",
+        "workspace_id": "1"
+      },
+      {
+        "mode": "chat",
+        "name": "Qwen3-VL-Embedding-8B",
+        "tags": "embedding",
+        "type": "text_embedding",
+        "enable": 1,
+        "source": "custom",
+        "model_id": "Qwen/Qwen3-VL-Embedding-8B",
+        "provider": "24b0e20c",
+        "workspace_id": "1"
+      },
+      {
+        "mode": "chat",
+        "name": "Qwen3-VL-Reranker-8B",
+        "tags": "",
+        "type": "rerank",
+        "enable": 1,
+        "source": "custom",
+        "model_id": "Qwen/Qwen3-VL-Reranker-8B",
+        "provider": "24b0e20c",
+        "workspace_id": "1"
+      }
+    ],
+    "model_config": [],
+    "prompt": [],
+    "provider": [
+      {
+        "name": "Tongyi",
+        "enable": 0,
+        "source": "preset",
+        "protocol": "OpenAI",
+        "provider": "Tongyi",
+        "credential": "***REDACTED***",
+        "description": "Tongyi",
+        "workspace_id": "1",
+        "has_credential": 1,
+        "supported_model_types": null
+      },
+      {
+        "name": "SeeAPI",
+        "enable": 1,
+        "source": "custom",
+        "protocol": "OpenAI",
+        "provider": "24b0e20c",
+        "credential": "***REDACTED***",
+        "description": "SeeAPI OpenAI-compatible gateway",
+        "workspace_id": "1",
+        "has_credential": 1,
+        "supported_model_types": "llm,text_embedding,rerank"
+      }
+    ],
+    "skill": [
+      {
+        "name": "Sample Greeting Skill",
+        "source": "user",
+        "status": 0,
+        "skill_id": "2081626422176043009",
+        "gmt_create": "2026-07-27 14:23:08",
+        "skill_name": "sample-skill",
+        "description": "A demo skill that explains how to greet users politely.",
+        "storage_path": "skill/10000/1/2081626422176043009",
+        "workspace_id": "1"
+      },
+      {
+        "name": "seedoc-cli",
+        "source": "user",
+        "status": 0,
+        "skill_id": "2081628181916876802",
+        "gmt_create": "2026-07-27 14:30:08",
+        "skill_name": "seedoc-cli",
+        "description": "AI 知识库 (seedoc) CLI — 上传/页面 CRUD/搜索/AI 聊天。默认 prod。Agent 必读 references/agent-workflow.md（鉴权→选空间/页→写操作确认）。",
+        "storage_path": "skill/10000/1/2081628181916876802",
+        "workspace_id": "1"
+      },
+      {
+        "name": "codex-ppt",
+        "source": "user",
+        "status": 0,
+        "skill_id": "2081628242528763905",
+        "gmt_create": "2026-07-27 14:30:22",
+        "skill_name": "codex-ppt",
+        "description": "Runtime home override.",
+        "storage_path": "skill/10000/1/2081628242528763905",
+        "workspace_id": "1"
+      },
+      {
+        "name": "Sample Greeting Skill",
+        "source": "user",
+        "status": 1,
+        "skill_id": "2081630339991269377",
+        "gmt_create": "2026-07-27 14:38:43",
+        "skill_name": "sample-skill",
+        "description": "A demo skill that explains how to greet users politely.",
+        "storage_path": "skill/10000/1/2081630339991269377",
+        "workspace_id": "1"
+      },
+      {
+        "name": "codex-ppt",
+        "source": "user",
+        "status": 1,
+        "skill_id": "2081630816158019585",
+        "gmt_create": "2026-07-27 14:40:36",
+        "skill_name": "codex-ppt",
+        "description": "Runtime home override.",
+        "storage_path": "skill/10000/1/2081630816158019585",
+        "workspace_id": "1"
+      }
+    ],
+    "workspace": [
+      {
+        "name": "Default Workspace",
+        "config": null,
+        "status": 1,
+        "account_id": "10000",
+        "gmt_create": "2026-07-24 19:01:42",
+        "description": "Default Workspace",
+        "gmt_modified": "2026-07-24 19:01:42",
+        "workspace_id": "1"
+      }
+    ]
+  }
+}

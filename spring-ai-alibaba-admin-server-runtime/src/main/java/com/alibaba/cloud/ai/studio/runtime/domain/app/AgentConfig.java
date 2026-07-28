@@ -57,6 +57,10 @@ public class AgentConfig implements AppConfig, Serializable {
 	@JsonProperty("mcp_servers")
 	private List<McpServer> mcpServers;
 
+	/** List of A2A remote agents for the agent */
+	@JsonProperty("a2a_agents")
+	private List<A2aAgent> a2aAgents;
+
 	/** List of skills for the agent */
 	@JsonProperty("skills")
 	private List<SkillRef> skills;
@@ -132,6 +136,18 @@ public class AgentConfig implements AppConfig, Serializable {
 		private String id;
 
 		/** Type of the server */
+		private String type;
+
+	}
+
+	/** Configuration for A2A remote agents */
+	@Data
+	public static class A2aAgent implements Serializable {
+
+		/** Unique identifier for the remote agent (agent_code) */
+		private String id;
+
+		/** Type of the agent reference */
 		private String type;
 
 	}

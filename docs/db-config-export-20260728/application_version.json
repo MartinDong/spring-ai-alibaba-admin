@@ -1,0 +1,697 @@
+[
+  {
+    "app_id": "2081577084405129218",
+    "config": {
+      "model": "DeepSeek-V4-Flash",
+      "tools": [],
+      "parameter": {},
+      "file_search": {
+        "top_k": 3,
+        "kb_ids": [
+          "2081577502875033602"
+        ],
+        "search_type": "hybrid",
+        "enable_rerank": false,
+        "enable_search": true,
+        "similarity_threshold": 0.2
+      },
+      "mcp_servers": [],
+      "instructions": "你是一个世界空间搜索助手，可以准确回答用户的提问。\\n# 知识库\\n请记住以下材料，他们可能对回答问题有帮助。\\n${documents}",
+      "modality_type": "textDialog",
+      "model_provider": "24b0e20c",
+      "agent_components": [],
+      "workflow_components": []
+    },
+    "status": 2,
+    "creator": "10000",
+    "version": "1",
+    "gmt_create": "2026-07-27 11:07:05",
+    "description": null,
+    "gmt_modified": "2026-07-27 11:20:26",
+    "workspace_id": "1"
+  },
+  {
+    "app_id": "2081577084405129218",
+    "config": {
+      "model": "DeepSeek-V4-Flash",
+      "tools": [],
+      "parameter": {},
+      "file_search": {
+        "top_k": 3,
+        "kb_ids": [
+          "2081577502875033602"
+        ],
+        "search_type": "hybrid",
+        "enable_rerank": false,
+        "enable_search": true,
+        "similarity_threshold": 0.2
+      },
+      "mcp_servers": [],
+      "instructions": "你是一个世界空间搜索助手，可以准确回答用户的提问。\\n# 知识库\\n请记住以下材料，他们可能对回答问题有帮助。\\n${documents}",
+      "modality_type": "textDialog",
+      "model_provider": "24b0e20c",
+      "agent_components": [
+        "2081587257435938818"
+      ],
+      "workflow_components": [
+        "2081588828106317825"
+      ]
+    },
+    "status": 2,
+    "creator": "10000",
+    "version": "2",
+    "gmt_create": "2026-07-27 11:47:41",
+    "description": null,
+    "gmt_modified": "2026-07-27 11:53:58",
+    "workspace_id": "1"
+  },
+  {
+    "app_id": "2081587430652305409",
+    "config": {
+      "edges": [
+        {
+          "id": "Start_8Fsg-Start_8Fsg-LLM_5DuT-LLM_5DuT",
+          "source": "Start_8Fsg",
+          "target": "LLM_5DuT",
+          "source_handle": "Start_8Fsg",
+          "target_handle": "LLM_5DuT"
+        },
+        {
+          "id": "LLM_5DuT-LLM_5DuT-End_tSLe-End_tSLe",
+          "source": "LLM_5DuT",
+          "target": "End_tSLe",
+          "source_handle": "LLM_5DuT",
+          "target_handle": "End_tSLe"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "Start_8Fsg",
+          "name": "开始",
+          "type": "Start",
+          "width": 320,
+          "config": {
+            "node_param": {},
+            "input_params": [],
+            "output_params": [
+              {
+                "key": "city",
+                "desc": "城市",
+                "type": "String"
+              },
+              {
+                "key": "date",
+                "desc": "日期",
+                "type": "String"
+              }
+            ]
+          },
+          "position": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        {
+          "id": "End_tSLe",
+          "name": "结束",
+          "type": "End",
+          "width": 320,
+          "config": {
+            "node_param": {
+              "json_params": [],
+              "output_type": "text",
+              "stream_switch": true,
+              "text_template": "${LLM_5DuT.reasoning_content}\\n${LLM_5DuT.output}"
+            },
+            "input_params": [],
+            "output_params": []
+          },
+          "position": {
+            "x": 742,
+            "y": 154.66666666666666
+          }
+        },
+        {
+          "id": "LLM_5DuT",
+          "name": "大模型1",
+          "type": "LLM",
+          "width": 320,
+          "config": {
+            "node_param": {
+              "model_config": {
+                "mode": "chat",
+                "params": [],
+                "model_id": "DeepSeek-V4-Flash",
+                "provider": "24b0e20c",
+                "model_name": "",
+                "vision_config": {
+                  "enable": false,
+                  "params": [
+                    {
+                      "key": "imageContent",
+                      "type": "File",
+                      "value_from": "refer"
+                    }
+                  ]
+                }
+              },
+              "retry_config": {
+                "max_retries": 3,
+                "retry_enabled": false,
+                "retry_interval": 500
+              },
+              "short_memory": {
+                "type": "self",
+                "param": {
+                  "key": "historyList",
+                  "type": "Array<String>",
+                  "value_from": "refer"
+                },
+                "round": 3,
+                "enabled": true
+              },
+              "prompt_content": "${Start_8Fsg.city}${Start_8Fsg.date}${sys.history_list}${sys.query}",
+              "try_catch_config": {
+                "strategy": "noop",
+                "default_values": [
+                  {
+                    "key": "output",
+                    "desc": "文本输出",
+                    "type": "String"
+                  }
+                ]
+              },
+              "sys_prompt_content": "对用户的提问深度解析后改写成合理的提问。"
+            },
+            "input_params": [],
+            "output_params": [
+              {
+                "key": "output",
+                "desc": "文本输出",
+                "type": "String"
+              },
+              {
+                "key": "reasoning_content",
+                "desc": "深度思考内容",
+                "type": "String"
+              }
+            ]
+          },
+          "position": {
+            "x": 420,
+            "y": 0
+          }
+        }
+      ],
+      "global_config": {
+        "history_config": {
+          "history_switch": false,
+          "history_max_round": 5
+        },
+        "variable_config": {
+          "conversation_params": []
+        }
+      }
+    },
+    "status": 2,
+    "creator": "10000",
+    "version": "1",
+    "gmt_create": "2026-07-27 11:48:12",
+    "description": null,
+    "gmt_modified": "2026-07-27 11:52:52",
+    "workspace_id": "1"
+  },
+  {
+    "app_id": "2081587430652305409",
+    "config": {
+      "edges": [
+        {
+          "id": "LLM_5DuT-LLM_5DuT-End_tSLe-End_tSLe",
+          "source": "LLM_5DuT",
+          "target": "End_tSLe",
+          "source_handle": "LLM_5DuT",
+          "target_handle": "End_tSLe"
+        },
+        {
+          "id": "Start_8Fsg-Start_8Fsg-Classifier_V6nT-Classifier_V6nT",
+          "source": "Start_8Fsg",
+          "target": "Classifier_V6nT",
+          "source_handle": "Start_8Fsg",
+          "target_handle": "Classifier_V6nT"
+        },
+        {
+          "id": "Classifier_V6nT-Classifier_V6nT_default-LLM_5DuT-LLM_5DuT",
+          "source": "Classifier_V6nT",
+          "target": "LLM_5DuT",
+          "source_handle": "Classifier_V6nT_default",
+          "target_handle": "LLM_5DuT"
+        },
+        {
+          "id": "Classifier_V6nT-Classifier_V6nT_gEgY-AppComponent_QkAe-AppComponent_QkAe",
+          "source": "Classifier_V6nT",
+          "target": "AppComponent_QkAe",
+          "source_handle": "Classifier_V6nT_gEgY",
+          "target_handle": "AppComponent_QkAe"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "Start_8Fsg",
+          "name": "开始",
+          "type": "Start",
+          "width": 320,
+          "config": {
+            "node_param": {},
+            "input_params": [],
+            "output_params": [
+              {
+                "key": "city",
+                "desc": "城市",
+                "type": "String"
+              },
+              {
+                "key": "date",
+                "desc": "日期",
+                "type": "String"
+              }
+            ]
+          },
+          "position": {
+            "x": -108.11704026004467,
+            "y": 36.60388823851043
+          }
+        },
+        {
+          "id": "End_tSLe",
+          "name": "结束",
+          "type": "End",
+          "width": 320,
+          "config": {
+            "node_param": {
+              "json_params": [],
+              "output_type": "text",
+              "stream_switch": true,
+              "text_template": "${LLM_5DuT.reasoning_content}\\n${LLM_5DuT.output}"
+            },
+            "input_params": [],
+            "output_params": []
+          },
+          "position": {
+            "x": 753.3564644703872,
+            "y": 265.78929848447535
+          }
+        },
+        {
+          "id": "LLM_5DuT",
+          "name": "Hermes Agent",
+          "type": "LLM",
+          "width": 320,
+          "config": {
+            "node_param": {
+              "model_config": {
+                "mode": "chat",
+                "params": [],
+                "model_id": "DeepSeek-V4-Flash",
+                "provider": "24b0e20c",
+                "model_name": "",
+                "vision_config": {
+                  "enable": false,
+                  "params": [
+                    {
+                      "key": "imageContent",
+                      "type": "File",
+                      "value_from": "refer"
+                    }
+                  ]
+                }
+              },
+              "retry_config": {
+                "max_retries": 3,
+                "retry_enabled": false,
+                "retry_interval": 500
+              },
+              "short_memory": {
+                "type": "self",
+                "param": {
+                  "key": "historyList",
+                  "type": "Array<String>",
+                  "value_from": "refer"
+                },
+                "round": 3,
+                "enabled": true
+              },
+              "prompt_content": "${Start_8Fsg.city}${Start_8Fsg.date}${sys.history_list}${sys.query}",
+              "try_catch_config": {
+                "strategy": "noop",
+                "default_values": [
+                  {
+                    "key": "output",
+                    "desc": "文本输出",
+                    "type": "String"
+                  }
+                ]
+              },
+              "sys_prompt_content": "对用户的提问深度解析后改写成合理的提问。"
+            },
+            "input_params": [],
+            "output_params": [
+              {
+                "key": "output",
+                "desc": "文本输出",
+                "type": "String"
+              },
+              {
+                "key": "reasoning_content",
+                "desc": "深度思考内容",
+                "type": "String"
+              }
+            ]
+          },
+          "position": {
+            "x": 748.9480222343727,
+            "y": 153.95094727287656
+          }
+        },
+        {
+          "id": "Classifier_V6nT",
+          "name": "意图分类1",
+          "type": "Classifier",
+          "width": 320,
+          "config": {
+            "node_param": {
+              "conditions": [
+                {
+                  "id": "default",
+                  "subject": ""
+                },
+                {
+                  "id": "gEgY",
+                  "subject": "简单Agent"
+                }
+              ],
+              "instruction": "",
+              "mode_switch": "efficient",
+              "model_config": {
+                "mode": "chat",
+                "params": [],
+                "model_id": "DeepSeek-V4-Flash",
+                "provider": "24b0e20c",
+                "model_name": "",
+                "vision_config": {
+                  "enable": false,
+                  "params": [
+                    {
+                      "key": "imageContent",
+                      "type": "File",
+                      "value_from": "refer"
+                    }
+                  ]
+                }
+              },
+              "short_memory": {
+                "type": "self",
+                "param": {
+                  "key": "historyList",
+                  "type": "Array<String>",
+                  "value_from": "refer"
+                },
+                "round": 3,
+                "enabled": false
+              }
+            },
+            "input_params": [
+              {
+                "key": "input",
+                "type": "String",
+                "value": "${sys.query}",
+                "value_from": "refer"
+              }
+            ],
+            "output_params": [
+              {
+                "key": "subject",
+                "desc": "命中主题",
+                "type": "String"
+              },
+              {
+                "key": "thought",
+                "desc": "思考过程",
+                "type": "String"
+              }
+            ]
+          },
+          "position": {
+            "x": 398.12123659130094,
+            "y": -85.33333333333333
+          }
+        },
+        {
+          "id": "AppComponent_QkAe",
+          "name": "应用组件1",
+          "type": "AppComponent",
+          "width": 320,
+          "config": {
+            "node_param": {
+              "code": "2081587257435938818",
+              "name": "测试智能体组件",
+              "type": "basic",
+              "output_type": "text",
+              "short_memory": {
+                "type": "self",
+                "param": {
+                  "key": "historyList",
+                  "type": "Array<String>",
+                  "value_from": "refer"
+                },
+                "round": 3,
+                "enabled": false
+              },
+              "stream_switch": false
+            },
+            "input_params": [
+              {
+                "key": "query",
+                "type": "String",
+                "value_from": "refer"
+              }
+            ],
+            "output_params": [
+              {
+                "key": "output",
+                "type": "String"
+              }
+            ]
+          },
+          "position": {
+            "x": 808.7879032579675,
+            "y": -245.33333333333331
+          }
+        }
+      ],
+      "global_config": {
+        "history_config": {
+          "history_switch": false,
+          "history_max_round": 5
+        },
+        "variable_config": {
+          "conversation_params": []
+        }
+      }
+    },
+    "status": 1,
+    "creator": "10000",
+    "version": "2",
+    "gmt_create": "2026-07-27 11:52:58",
+    "description": null,
+    "gmt_modified": "2026-07-27 17:34:35",
+    "workspace_id": "1"
+  },
+  {
+    "app_id": "2081577084405129218",
+    "config": {
+      "model": "DeepSeek-V4-Flash",
+      "tools": [],
+      "skills": [
+        {
+          "id": "2081630816158019585"
+        }
+      ],
+      "parameter": {},
+      "file_search": {
+        "top_k": 3,
+        "kb_ids": [
+          "2081577502875033602"
+        ],
+        "search_type": "hybrid",
+        "enable_rerank": false,
+        "enable_search": true,
+        "similarity_threshold": 0.2
+      },
+      "mcp_servers": [],
+      "instructions": "你是一个世界空间搜索助手，可以准确回答用户的提问。\\n# 知识库\\n请记住以下材料，他们可能对回答问题有帮助。\\n${documents}",
+      "modality_type": "textDialog",
+      "model_provider": "24b0e20c",
+      "agent_components": [
+        "2081587257435938818"
+      ],
+      "workflow_components": [
+        "2081588828106317825"
+      ]
+    },
+    "status": 2,
+    "creator": "10000",
+    "version": "3",
+    "gmt_create": "2026-07-27 14:23:28",
+    "description": null,
+    "gmt_modified": "2026-07-27 16:46:46",
+    "workspace_id": "1"
+  },
+  {
+    "app_id": "2081577084405129218",
+    "config": {
+      "model": "DeepSeek-V4-Flash",
+      "tools": [],
+      "skills": [
+        {
+          "id": "2081630816158019585"
+        }
+      ],
+      "parameter": {},
+      "file_search": {
+        "top_k": 3,
+        "kb_ids": [
+          "2081577502875033602"
+        ],
+        "search_type": "hybrid",
+        "enable_rerank": false,
+        "enable_search": true,
+        "similarity_threshold": 0.2
+      },
+      "mcp_servers": [],
+      "instructions": "你是一个世界空间搜索助手，可以准确回答用户的提问。\\n# 知识库\\n请记住以下材料，他们可能对回答问题有帮助。\\n${documents}",
+      "modality_type": "textDialog",
+      "model_provider": "24b0e20c",
+      "agent_components": [
+        "2081587257435938818"
+      ],
+      "workflow_components": [
+        "2081588828106317825"
+      ]
+    },
+    "status": 2,
+    "creator": "10000",
+    "version": "4",
+    "gmt_create": "2026-07-27 17:32:13",
+    "description": null,
+    "gmt_modified": "2026-07-27 17:32:16",
+    "workspace_id": "1"
+  },
+  {
+    "app_id": "2081674179070840834",
+    "config": {
+      "model": "DeepSeek-V4-Flash",
+      "tools": [],
+      "skills": [],
+      "parameter": {},
+      "file_search": {
+        "kb_ids": []
+      },
+      "mcp_servers": [],
+      "instructions": "",
+      "modality_type": "textDialog",
+      "model_provider": "24b0e20c",
+      "agent_components": [],
+      "workflow_components": []
+    },
+    "status": 2,
+    "creator": "10000",
+    "version": "1",
+    "gmt_create": "2026-07-27 17:32:55",
+    "description": null,
+    "gmt_modified": "2026-07-27 17:33:13",
+    "workspace_id": "1"
+  },
+  {
+    "app_id": "2081577084405129218",
+    "config": {
+      "model": "DeepSeek-V4-Flash",
+      "tools": [],
+      "skills": [
+        {
+          "id": "2081630816158019585"
+        }
+      ],
+      "parameter": {},
+      "file_search": {
+        "top_k": 3,
+        "kb_ids": [
+          "2081577502875033602"
+        ],
+        "search_type": "hybrid",
+        "enable_rerank": false,
+        "enable_search": true,
+        "similarity_threshold": 0.2
+      },
+      "mcp_servers": [],
+      "instructions": "你是一个世界空间搜索助手，可以准确回答用户的提问。\\n# 知识库\\n请记住以下材料，他们可能对回答问题有帮助。\\n${documents}",
+      "modality_type": "textDialog",
+      "model_provider": "24b0e20c",
+      "agent_components": [
+        "2081587257435938818",
+        "2081674308402204674"
+      ],
+      "workflow_components": [
+        "2081588828106317825"
+      ]
+    },
+    "status": 2,
+    "creator": "10000",
+    "version": "5",
+    "gmt_create": "2026-07-27 17:33:46",
+    "description": null,
+    "gmt_modified": "2026-07-27 17:40:12",
+    "workspace_id": "1"
+  },
+  {
+    "app_id": "2081577084405129218",
+    "config": {
+      "model": "DeepSeek-V4-Flash",
+      "tools": [],
+      "skills": [
+        {
+          "id": "2081630816158019585"
+        }
+      ],
+      "parameter": {},
+      "a2a_agents": [],
+      "file_search": {
+        "top_k": 3,
+        "kb_ids": [
+          "2081577502875033602"
+        ],
+        "search_type": "hybrid",
+        "enable_rerank": false,
+        "enable_search": true,
+        "similarity_threshold": 0.2
+      },
+      "mcp_servers": [],
+      "instructions": "你是一个世界空间搜索助手，可以准确回答用户的提问。\\n# 知识库\\n请记住以下材料，他们可能对回答问题有帮助。\\n${documents}",
+      "modality_type": "textDialog",
+      "model_provider": "24b0e20c",
+      "agent_components": [
+        "2081587257435938818",
+        "2081674308402204674"
+      ],
+      "workflow_components": [
+        "2081588828106317825"
+      ]
+    },
+    "status": 1,
+    "creator": "10000",
+    "version": "6",
+    "gmt_create": "2026-07-28 11:24:31",
+    "description": null,
+    "gmt_modified": "2026-07-28 11:24:32",
+    "workspace_id": "1"
+  }
+]

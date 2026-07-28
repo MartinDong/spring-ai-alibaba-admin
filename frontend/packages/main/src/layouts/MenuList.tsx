@@ -14,6 +14,7 @@ const menus: {
     }),
   },
   { to: 'mcp', title: 'MCP' },
+  { to: 'a2a', title: 'A2A' },
   {
     to: 'component',
     title: $i18n.get({

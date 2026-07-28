@@ -1,0 +1,41 @@
+[
+  {
+    "icon": null,
+    "name": "SeeTime",
+    "type": "basic",
+    "app_id": "2081577084405129218",
+    "source": "console",
+    "status": 3,
+    "creator": "10000",
+    "gmt_create": "2026-07-27 11:07:05",
+    "description": null,
+    "gmt_modified": "2026-07-28 11:24:32",
+    "workspace_id": "1"
+  },
+  {
+    "icon": null,
+    "name": "报告生成WorkFlow流程编排",
+    "type": "workflow",
+    "app_id": "2081587430652305409",
+    "source": "console",
+    "status": 3,
+    "creator": "10000",
+    "gmt_create": "2026-07-27 11:48:12",
+    "description": null,
+    "gmt_modified": "2026-07-27 17:34:35",
+    "workspace_id": "1"
+  },
+  {
+    "icon": null,
+    "name": "景区流量查询Agent",
+    "type": "basic",
+    "app_id": "2081674179070840834",
+    "source": "console",
+    "status": 2,
+    "creator": "10000",
+    "gmt_create": "2026-07-27 17:32:55",
+    "description": null,
+    "gmt_modified": "2026-07-27 17:33:13",
+    "workspace_id": "1"
+  }
+]

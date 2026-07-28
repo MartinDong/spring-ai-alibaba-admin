@@ -112,6 +112,8 @@ services:
   nacos:
     container_name: saa-nacos
     restart: always
+    # Keep Nacos 2.x until v3.1.0 image pull completes on this host.
+    # A2A Card URL / JSON-RPC publish still works; Nacos A2A registry needs 3.x.
     image: nacos/nacos-server:v2.4.3
     ports:
       - "17080:8080"
@@ -124,6 +126,8 @@ services:
       - NACOS_AUTH_IDENTITY_VALUE=admin
       - JVM_XMS=256m
       - JVM_XMX=512m
+      # Fresh data recommended when upgrading from 2.x: remove ./data/nacos if startup fails
+      - NACOS_AUTH_ENABLE=true
     volumes:
       - ./data/nacos/logs:/home/nacos/logs
       - ./data/nacos/data:/home/nacos/data
@@ -132,7 +136,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 20
-      start_period: 40s
+      start_period: 60s
     networks:
       - saa-net
 
@@ -277,6 +281,8 @@ services:
       - SPRING_ELASTICSEARCH_URIS=http://elasticsearch:9200
       - SPRING_ELASTICSEARCH_URL=http://elasticsearch:9200
       - NACOS_SERVER_ADDR=nacos:8848
+      - A2A_PUBLIC_BASE_URL=http://${LAN_IP}:${ADMIN_HOST_PORT}
+      - SPRING_AUTOCONFIGURE_EXCLUDE=com.alibaba.cloud.ai.a2a.autoconfigure.nacos.NacosA2aRegistryAutoConfiguration,com.alibaba.cloud.ai.a2a.autoconfigure.nacos.NacosA2aDiscoveryAutoConfiguration,com.alibaba.cloud.ai.a2a.autoconfigure.server.A2aServerHandlerAutoConfiguration,com.alibaba.cloud.ai.a2a.autoconfigure.server.A2aServerAgentCardAutoConfiguration,com.alibaba.cloud.ai.a2a.autoconfigure.server.A2aServerAutoConfiguration,com.alibaba.cloud.ai.a2a.autoconfigure.server.A2aServerMultiAgentAutoConfiguration,com.alibaba.cloud.ai.a2a.autoconfigure.server.A2aServerRegistryAutoConfiguration,com.alibaba.cloud.ai.a2a.autoconfigure.client.A2aClientAgentCardProviderAutoConfiguration
       - ROCKETMQ_ENDPOINTS=rmq-proxy:18080
       - MANAGEMENT_OTLP_TRACING_EXPORT_ENDPOINT=http://loongcollector:4318/v1/traces
       - MODEL_CONFIG_FILE=/app/model-config.yml

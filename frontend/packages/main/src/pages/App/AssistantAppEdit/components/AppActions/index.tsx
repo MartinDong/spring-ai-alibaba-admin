@@ -1,5 +1,6 @@
 import $i18n from '@/i18n';
 import { channelConfigEventBus } from '@/pages/App/components/ChannelConfig/PublishComponentCard';
+import PublishA2AButton from '@/pages/App/components/PublishA2AButton';
 import { publishApp } from '@/services/appManage';
 import { Button, IconFont, Popover, Tooltip } from '@spark-ai/design';
 import { useSetState } from 'ahooks';
@@ -173,6 +174,14 @@ export default function AppActions(props: {
               >
                 导出SAA工程代码
               </Button>
+              {appCode && (
+                <PublishA2AButton
+                  appId={appCode}
+                  appType="basic"
+                  defaultName={appState.appBasicConfig?.name}
+                  defaultDescription={appState.appBasicConfig?.description}
+                />
+              )}
               <Popover
                 onOpenChange={(val) => {
                   if (!val) onClose();
